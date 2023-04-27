@@ -1,0 +1,4 @@
+this is content from inputFile1.txt
+this is content from inputFile2.txt
+this is content from inputFile3.txt
+this is content from inputFile4.txt
