@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜鸟驿站(runoob.com)</title>
+</head>
+
+<body>
+    <script>
+        var socket;
+
+        if(window.WebSocket){
+            //  建立一个 webSocket 连接
+            socket = new WebSocket("ws://localhost:1314/hello2");
+            //  相当于channelReado,ev收到服务器端回送的消息
+            //  当浏览器接收到WebSocketServer发送过来的数据时，就会触发onmessage消息，参数evt中包含server传输过来的数据。
+            socket.onmessage = function (ev){
+                var rt = document.getElementById("responseText");
+                rt.value = rt.value + "\n" + ev.data;
+            }
+
+            //浏览器和WebSocketServer连接后，会发送onopen消息，相当于连接开启(感知到连接开启)
+            socket.onopen = function (ev){
+                var rt = document.getElementById("responseText");
+                rt.value = "链接开启了";
+            }
+
+            //浏览器和WebSocketServer关闭连接后，会发送onclose消息,相当于连接关闭（感知到连接被关闭)
+            socket.onclose = function (ev){
+                var rt = document.getElementById("responseText");
+                rt.value = rt.value + "\n" + "连接关闭了...";
+            }
+
+        }else {
+            alert("当前浏览器不支持websocket")
+        }
+
+        //  发送消息到服务器
+        function send(message){
+            if(!window.socket){
+                return;
+            }
+            if(socket.readyState === WebSocket.OPEN){
+                //  通过socket发送消息
+                socket.send(message)
+            }else {
+                alert("连接没有开启")
+            }
+        }
+    </script>
+        <form onsubmit="return false">
+            <textarea name = "message" style="height: 300px; width: 300px"></textarea>
+            <input type="button" value="发送消息" onclick="send(this.form.message.value)">
+            <textarea id="responseText" style="height: 300px; width: 300px"></textarea>
+            <input type="button" value="清空内容" onclick="document.getElementById('responseText').value=''">
+        </form>
+</body>
+</html>
