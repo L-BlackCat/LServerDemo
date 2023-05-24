@@ -8,5 +8,8 @@ public class MyMessageEncoder extends MessageToByteEncoder<MessageProtocol> {
     @Override
     protected void encode(ChannelHandlerContext ctx, MessageProtocol msg, ByteBuf out) throws Exception {
 
+        System.out.println("MyMessageEncoder decode 被调用");
+        out.writeInt(msg.getLen());
+        out.writeBytes(msg.getContent());
     }
 }

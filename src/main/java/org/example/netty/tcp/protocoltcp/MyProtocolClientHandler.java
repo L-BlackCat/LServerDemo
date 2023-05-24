@@ -5,7 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.nio.charset.StandardCharsets;
 
-public class MyClientHandler extends SimpleChannelInboundHandler<MessageProtocol> {
+public class MyProtocolClientHandler extends SimpleChannelInboundHandler<MessageProtocol> {
     int count;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -19,6 +19,7 @@ public class MyClientHandler extends SimpleChannelInboundHandler<MessageProtocol
             messageProtocol.setLen(len);
             messageProtocol.setContent(bytes);
 
+            //  客户端和服务器端进行交互的二进制数据载体为ByteBuf，ByteBuf通过连接的内存管理器创建，字节数据填充到ByteBuf才能写到对端
             ctx.writeAndFlush(messageProtocol);
         }
     }

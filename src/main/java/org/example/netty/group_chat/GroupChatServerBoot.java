@@ -11,10 +11,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.example.netty.group_chat.engine.ClientRequestMgr;
 
 import java.util.concurrent.TimeUnit;
 
-public class GroupChatServer {
+public class GroupChatServerBoot {
+    public static void init(){
+        ClientRequestMgr.Instance.onServerStart();
+    }
 
 
     public void start(){
@@ -61,6 +65,7 @@ public class GroupChatServer {
 
 
     public static void main(String[] args) {
-        new GroupChatServer().start();
+        init();
+        new GroupChatServerBoot().start();
     }
 }
