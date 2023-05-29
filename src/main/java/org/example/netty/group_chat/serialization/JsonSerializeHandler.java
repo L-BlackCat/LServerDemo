@@ -3,6 +3,7 @@ package org.example.netty.group_chat.serialization;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.example.netty.group_chat.IObject;
+import org.example.netty.group_chat.data_pack.Packet;
 
 public class JsonSerializeHandler implements IChatSerializer {
     @Override
@@ -16,7 +17,7 @@ public class JsonSerializeHandler implements IChatSerializer {
     }
 
     @Override
-    public IObject deserialize(byte[] bytes) {
-        return JSON.parseObject(bytes,IObject.class);
+    public <T> T deserialize(byte[] bytes,Class<T> clazz) {
+        return JSON.parseObject(bytes, clazz);
     }
 }

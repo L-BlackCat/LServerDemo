@@ -5,11 +5,6 @@ import org.example.netty.group_chat.ChatErrCodeEnum;
 public class ClientResponseData extends Packet {
     ChatErrCodeEnum errCodeEnum;
 
-    @Override
-    int getRequestId() {
-        return get_request_id();
-    }
-
     public ChatErrCodeEnum getErrCodeEnum() {
         return errCodeEnum;
     }

@@ -4,9 +4,11 @@ import org.example.netty.group_chat.IObject;
 
 public interface IChatSerializer {
     IChatSerializer DEFAULT = new JsonSerializeHandler();
-    int getSerializeType();
+    default int getSerializeType(){
+        return DEFAULT.getSerializeType();
+    }
 
     byte[] serialize(Object obj);
 
-    IObject deserialize(byte[] bytes);
+    <T> T deserialize(byte[] bytes,Class<T> clazz);
 }

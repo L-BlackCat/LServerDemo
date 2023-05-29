@@ -44,4 +44,44 @@ public class JObject implements IObject{
     public Short getShort(String key) {
         return json.getShort(key);
     }
+
+    @Override
+    public String getString(String key) {
+        return null;
+    }
+
+    @Override
+    public void put(String key, boolean value) {
+
+    }
+
+    @Override
+    public void put(String key, byte value) {
+
+    }
+
+    @Override
+    public void put(String key, int value) {
+
+    }
+
+    @Override
+    public void put(String Key, long value) {
+
+    }
+
+    @Override
+    public void put(String Key, float value) {
+
+    }
+
+    @Override
+    public void put(String key, short value) {
+
+    }
+
+    @Override
+    public void put(String key, String value) {
+
+    }
 }

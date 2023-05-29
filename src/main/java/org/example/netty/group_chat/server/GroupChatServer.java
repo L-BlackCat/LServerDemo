@@ -1,4 +1,4 @@
-package org.example.netty.group_chat;
+package org.example.netty.group_chat.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,14 +8,14 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.example.netty.group_chat.codec.GroupChatMessageDecode;
+import org.example.netty.group_chat.codec.GroupChatMessageEncode;
 import org.example.netty.group_chat.engine.ClientRequestMgr;
 
 import java.util.concurrent.TimeUnit;
 
-public class GroupChatServerBoot {
+public class GroupChatServer {
     public static void init(){
         ClientRequestMgr.Instance.onServerStart();
     }
@@ -36,11 +36,12 @@ public class GroupChatServerBoot {
                             //  获取pipeline
                             ChannelPipeline pipeline = ch.pipeline();
 
-                            pipeline.addLast(new StringEncoder());
-                            pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new GroupChatMessageDecode());
                             //  增加心跳检测机制
                             pipeline.addLast(new IdleStateHandler(7000,7000,20, TimeUnit.SECONDS));
-                            pipeline.addLast(new GroupChatServerHandler());
+//                            pipeline.addLast(new GroupChatServerHandler());
+                            pipeline.addLast(new GroupChatServerDistributorHandler());
+                            pipeline.addLast(new GroupChatMessageEncode());
                         }
                     });
 
@@ -66,6 +67,6 @@ public class GroupChatServerBoot {
 
     public static void main(String[] args) {
         init();
-        new GroupChatServerBoot().start();
+        new GroupChatServer().start();
     }
 }

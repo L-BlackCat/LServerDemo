@@ -1,4 +1,4 @@
-package org.example.netty.group_chat;
+package org.example.netty.group_chat.server;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,9 +23,9 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
 
     //定义一个channel组，管理所有的channel
     //GlobalEventExecutor.INSTANCE 是全局的事件执行器，是一个单例
-    private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    private static Map<Channel,String> channelNameMap = new HashMap<>();
+    private static final Map<Channel,String> channelNameMap = new HashMap<>();
     SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Override

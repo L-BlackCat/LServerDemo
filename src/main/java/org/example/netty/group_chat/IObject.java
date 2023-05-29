@@ -16,4 +16,22 @@ public interface IObject {
     Float getFloat(String Key);
 
     Short getShort(String key);
+
+    String getString(String key);
+
+
+
+    void put(String key,boolean value);
+
+    void put(String key,byte value);
+
+    void put(String key,int value);
+
+    void put(String Key,long value);
+
+    void put(String Key,float value);
+
+    void put(String key,short value);
+
+    void put(String key,String value);
 }

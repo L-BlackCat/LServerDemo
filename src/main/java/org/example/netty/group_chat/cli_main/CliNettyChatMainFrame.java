@@ -1,5 +1,9 @@
 package org.example.netty.group_chat.cli_main;
 
+import io.netty.channel.Channel;
+import org.example.netty.group_chat.bean.LoginRequestPacket;
+import org.example.netty.group_chat.engine.ClientRequestID;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -24,18 +28,15 @@ public class CliNettyChatMainFrame {
     DefaultListModel<String> model = new DefaultListModel<>();
     JList<String> list = new JList<>(model);
 
+    Channel channel;
 
     CliNettyChatLoginFrame loginFrame;
 
     boolean isRun;
 
-//    public CliNettyChatMainFrame(NioClientService clientService, CliNettyChatLoginFrame loginFrame) throws HeadlessException {
-//        this.name = clientService.getName();
-//        this.loginFrame = loginFrame;
-//        isRun = true;
-//    }
-
-    public CliNettyChatMainFrame(CliNettyChatLoginFrame loginFrame) throws HeadlessException {
+    public CliNettyChatMainFrame(Channel channel,String name,CliNettyChatLoginFrame loginFrame) throws HeadlessException {
+        this.channel = channel;
+        this.name = name;
         this.loginFrame = loginFrame;
         isRun = true;
     }
@@ -86,7 +87,7 @@ public class CliNettyChatMainFrame {
             public void windowClosing(WindowEvent e) {
                 //  LFH 通知聊天服务器断开连接
                 isRun = false;
-//                clientService.sendInfo("exit_" + name);
+                channel.writeAndFlush("exit_" + name);
                 System.exit(0);
 
             }
@@ -95,7 +96,7 @@ public class CliNettyChatMainFrame {
         btnExit.addActionListener(e -> {
             // LFH  通知聊天服务器断开连接
             isRun = false;
-//            clientService.sendInfo("exit_" + name);
+            channel.writeAndFlush("exit_" + name);
             System.exit(0);
         });
 
@@ -103,7 +104,7 @@ public class CliNettyChatMainFrame {
             //  LFH 将消息发送给聊天服务器，交给聊天服务器发送给其他客户端
             String msg = writeContext.getText();
             if(!msg.trim().isEmpty()){
-//                clientService.sendInfo(name + "^" + msg);
+                channel.writeAndFlush(name + "^" + msg);
             }
             writeContext.setText("");
             writeContext.requestFocus();
@@ -125,7 +126,7 @@ public class CliNettyChatMainFrame {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     String msg = writeContext.getText();
                     if(msg.trim().length() > 0){
-//                        clientService.sendInfo(name + "^" + msg);
+                        channel.writeAndFlush(name + "^" + msg);
                     }
                     writeContext.setText("");
                     writeContext.requestFocus();
@@ -139,9 +140,18 @@ public class CliNettyChatMainFrame {
 
     public void show(){
         init();
-//        clientService.sendInfo("login_" + name);
+        login(name);
         new MyThread().start();
         frame.setVisible(true);
+    }
+
+    public void login(String name){
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        loginRequestPacket.setRequestId(ClientRequestID.Chat_Login.getId());
+        loginRequestPacket.getMap().put("name",name);
+        loginRequestPacket.setName(name);
+
+        channel.writeAndFlush(loginRequestPacket);
     }
 
     class MyThread extends Thread{

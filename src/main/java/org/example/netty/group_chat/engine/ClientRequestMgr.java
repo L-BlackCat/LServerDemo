@@ -1,7 +1,7 @@
 package org.example.netty.group_chat.engine;
 
 
-import org.example.netty.group_chat.handler.ChatClientRequestHandler_GameLogin;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_GameLogin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public enum ClientRequestMgr {
         通过他来识别出数据包是自定义协议的包，还是无效数据包
         在java字节码的二进制文件中，开头的4字节为0xcafebabe,用来表示一个字节码文件
      */
-    private static final long MAGIC_NUM = 0x12345678;
+    public static final long MAGIC_NUM = 0x12345678;
     Map<ClientRequestID,Class<? extends ChatClientRequestHandlerBase>> handlerMap = new HashMap<>();
 
 

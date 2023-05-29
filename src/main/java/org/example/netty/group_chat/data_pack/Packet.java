@@ -1,19 +1,19 @@
 package org.example.netty.group_chat.data_pack;
 
 import org.example.netty.group_chat.IObject;
+import org.example.netty.group_chat.JObject;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
+import org.example.netty.group_chat.serialization.IChatSerializer;
 
 public abstract class Packet {
     public static final int VERSION = 1;
 
     int requestId;
-    IObject map;
-    ChatSerializeType chatSerializeType;
-
-    abstract int getRequestId();
+    IObject map = new JObject();
+    ChatSerializeType chatSerializeType = ChatSerializeType.JSON;
 
 
-    public int get_request_id() {
+    public int getRequestId() {
         return requestId;
     }
 
