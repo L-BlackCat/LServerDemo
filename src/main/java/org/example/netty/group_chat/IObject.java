@@ -1,6 +1,10 @@
 package org.example.netty.group_chat;
 
-public interface IObject {
+import com.google.protobuf.MapEntry;
+
+import java.util.Map;
+
+public interface IObject{
     boolean containsKey(String key);
 
     int size();
@@ -19,6 +23,7 @@ public interface IObject {
 
     String getString(String key);
 
+    Object get(String key);
 
 
     void put(String key,boolean value);
@@ -34,4 +39,8 @@ public interface IObject {
     void put(String key,short value);
 
     void put(String key,String value);
+
+
+    String toJSONString ();
+
 }

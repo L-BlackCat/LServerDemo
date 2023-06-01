@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import org.example.netty.group_chat.ChatErrCodeEnum;
 import org.example.netty.group_chat.bean.LoginRequestPacket;
-import org.example.netty.group_chat.bean.LoginResponsePacket;
-import org.example.netty.group_chat.data_pack.Packet;
+import org.example.netty.group_chat.bean.ResponsePacket;
+import org.example.netty.group_chat.bean.Packet;
+import org.example.netty.group_chat.client.ChannelAttrUtil;
 import org.example.netty.group_chat.engine.ChatClientRequestHandlerBase;
+import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.server.ChatUserMgr;
 
@@ -19,11 +21,12 @@ public class ChatClientRequestHandler_GameLogin extends ChatClientRequestHandler
         ChatUserMgr.Instance.getNames().add(name);
 
 
-        LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
-        loginResponsePacket.setRequestId(packet.getRequestId());
-        loginResponsePacket.setCodeEnum(ChatErrCodeEnum.SUCCESS);
+        ResponsePacket responsePacket = new ResponsePacket();
+        responsePacket.setRequestId(ClientProtocolID.Chat_Login_Response.getId());
+        responsePacket.setCodeEnum(ChatErrCodeEnum.SUCCESS);
         Debug.info(name + "is login success");
-        System.out.println(JSON.toJSONString(loginResponsePacket));
-        return loginResponsePacket;
+        Debug.info(JSON.toJSONString(responsePacket));
+        ChannelAttrUtil.Instance.markAsName(ctx.channel(),name);
+        return responsePacket;
     }
 }

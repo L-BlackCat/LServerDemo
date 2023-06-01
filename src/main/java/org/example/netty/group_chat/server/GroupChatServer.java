@@ -11,14 +11,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
 import org.example.netty.group_chat.codec.GroupChatMessageEncode;
-import org.example.netty.group_chat.engine.ClientRequestMgr;
+import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.logger.Debug;
 
 import java.util.concurrent.TimeUnit;
 
 public class GroupChatServer {
     public static void init(){
-        ClientRequestMgr.Instance.onServerStart();
+        ClientProtocolMgr.Instance.onServerStart();
     }
 
 
@@ -39,7 +39,7 @@ public class GroupChatServer {
 
                             pipeline.addLast(new GroupChatMessageDecode());
                             //  增加心跳检测机制
-                            pipeline.addLast(new IdleStateHandler(7000,7000,20, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(7000,7000,100, TimeUnit.SECONDS));
 //                            pipeline.addLast(new GroupChatServerHandler());
                             pipeline.addLast(new GroupChatServerDistributorHandler());
                             pipeline.addLast(new GroupChatMessageEncode());

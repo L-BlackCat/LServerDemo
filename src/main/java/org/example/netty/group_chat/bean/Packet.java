@@ -1,17 +1,22 @@
-package org.example.netty.group_chat.data_pack;
+package org.example.netty.group_chat.bean;
 
 import org.example.netty.group_chat.IObject;
 import org.example.netty.group_chat.JObject;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
-import org.example.netty.group_chat.serialization.IChatSerializer;
 
-public abstract class Packet {
+import java.io.Serializable;
+
+public abstract class Packet implements Serializable {
     public static final int VERSION = 1;
 
     int requestId;
-    IObject map = new JObject();
+    //  LFM JsonObject序列化前和序列化后结构变化
+    IObject map;
     ChatSerializeType chatSerializeType = ChatSerializeType.JSON;
 
+    public Packet() {
+        map = new JObject();
+    }
 
     public int getRequestId() {
         return requestId;
@@ -25,7 +30,7 @@ public abstract class Packet {
         return map;
     }
 
-    public void setMap(IObject map) {
+    public void setMap(JObject map) {
         this.map = map;
     }
 
@@ -40,4 +45,5 @@ public abstract class Packet {
     public int version(){
         return VERSION;
     }
+
 }

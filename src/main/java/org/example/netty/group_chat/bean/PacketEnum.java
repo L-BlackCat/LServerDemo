@@ -1,11 +1,13 @@
 package org.example.netty.group_chat.bean;
 
-import org.example.netty.group_chat.data_pack.PacketData;
+import org.example.netty.group_chat.engine.ClientProtocolID;
 
 public enum PacketEnum {
-    Login_Request(1,"登录请求",LoginRequestPacket.class),
-    Login_Response(1000001,"登录响应",LoginResponsePacket.class),
+    Login_Request(ClientProtocolID.Chat_Login_Request.getId(),"登录请求",LoginRequestPacket.class),
+    Login_Response(ClientProtocolID.Chat_Login_Response.getId(),"登录响应", ResponsePacket.class),
 
+    Message_Request(ClientProtocolID.Chat_Message_Request.getId(),"消息请求",MessageRequestPacket.class),
+    Message_Response(ClientProtocolID.Chat_Message_Response.getId(),"发送消息响应", ResponsePacket.class),
     ;
 
     private int id;

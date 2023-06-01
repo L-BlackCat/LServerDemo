@@ -4,18 +4,22 @@ import org.apache.log4j.Logger;
 
 public class Debug {
     private static Logger loggerInfo = Logger.getLogger("LOGGER");
+    private static Logger loggerDebug = Logger.getLogger("LOGGER");
     private static Logger loggerError = Logger.getLogger("LOGGER");
     private static Logger loggerWarn = Logger.getLogger("LOGGER");
 
 
     public enum  LEVEL{
         INFO,
+        DEBUG,
         WARNING,
         ERROR,
         ;
     }
 
-
+    public static void debug(String message){
+        output(message,LEVEL.DEBUG);
+    }
     public static void info(String message){
         output(message,LEVEL.INFO);
     }
@@ -37,6 +41,9 @@ public class Debug {
         switch (tag){
             case INFO:
                 loggerInfo.info(message);
+                break;
+            case DEBUG:
+                loggerDebug.debug(message);
                 break;
             case WARNING:
                 loggerWarn.warn(message);

@@ -7,13 +7,11 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import org.example.netty.group_chat.JObject;
-import org.example.netty.group_chat.data_pack.ClientResponseData;
-import org.example.netty.group_chat.data_pack.Packet;
-import org.example.netty.group_chat.engine.ClientRequestMgr;
+import org.example.netty.group_chat.KDateUtil;
+import org.example.netty.group_chat.bean.Packet;
+import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.engine.IRequestHandler;
 import org.example.netty.group_chat.logger.Debug;
-import org.example.netty.group_chat.serialization.ChatSerializeType;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -22,7 +20,6 @@ import java.util.Random;
 
 public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandler<Packet> {
 
-    private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     private static final Map<Channel,String> channelNameMap = new HashMap<>();
     SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -31,7 +28,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        channelGroup.add(channel);
+        ChatUserMgr.Instance.addChannel(channel);
         Debug.info(channel.remoteAddress() + "连接成功...");
     }
 
@@ -52,9 +49,9 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet requestPack) throws Exception {
         int requestId = requestPack.getRequestId();
-        long now = System.currentTimeMillis() / 1000;
+        long now = KDateUtil.Instance.now();
 
-        IRequestHandler handler = ClientRequestMgr.Instance.createById(requestId);
+        IRequestHandler handler = ClientProtocolMgr.Instance.createRequestById(requestId);
         if(handler == null){
             Debug.err("找不到requestId对应的handler");
             return;
@@ -63,7 +60,8 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
         try{
             //  对协议进行处理，应该有一个返回数据
             Packet responsePack = handler.onProcess(ctx, requestPack, now);
-            ctx.writeAndFlush(responsePack);
+            ctx.channel().writeAndFlush(responsePack);
+            Debug.info("发送数据成功");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -73,7 +71,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         Debug.info(channel.remoteAddress() + "断开连接...");
-        channelGroup.remove(channel);
+        ChatUserMgr.Instance.removeChannel(channel);
     }
 
     @Override

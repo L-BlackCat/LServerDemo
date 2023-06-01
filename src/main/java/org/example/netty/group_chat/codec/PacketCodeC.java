@@ -2,11 +2,10 @@ package org.example.netty.group_chat.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import org.example.netty.group_chat.IObject;
 import org.example.netty.group_chat.bean.PacketEnum;
-import org.example.netty.group_chat.data_pack.Packet;
-import org.example.netty.group_chat.data_pack.PacketData;
-import org.example.netty.group_chat.engine.ClientRequestMgr;
+import org.example.netty.group_chat.bean.Packet;
+import org.example.netty.group_chat.bean.PacketData;
+import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
 import org.example.netty.group_chat.serialization.IChatSerializer;
@@ -26,7 +25,7 @@ public enum PacketCodeC {
 
         // 3. 实际编码过程
 
-        byteBuf.writeLong(ClientRequestMgr.MAGIC_NUM);
+        byteBuf.writeLong(ClientProtocolMgr.MAGIC_NUM);
 
         byteBuf.writeInt(packet.version());
 
@@ -44,7 +43,7 @@ public enum PacketCodeC {
 
     public Packet decode(ByteBuf buf) throws InstantiationException, IllegalAccessException {
         long magicNum = buf.readLong();
-        if(magicNum != ClientRequestMgr.MAGIC_NUM){
+        if(magicNum != ClientProtocolMgr.MAGIC_NUM){
             Debug.info("错误包，不进行解析");
             return null;
         }
@@ -74,4 +73,5 @@ public enum PacketCodeC {
         Class<? extends PacketData> handlerClass = packetEnum.getHandlerClass();
         return handler.deserialize(bytes,handlerClass);
     }
+
 }

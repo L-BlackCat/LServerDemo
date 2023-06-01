@@ -2,7 +2,7 @@ package org.example.netty.group_chat.cli_main;
 
 import io.netty.channel.Channel;
 import org.example.netty.group_chat.bean.LoginRequestPacket;
-import org.example.netty.group_chat.engine.ClientRequestID;
+import org.example.netty.group_chat.engine.ClientProtocolID;
 
 import javax.swing.*;
 import java.awt.*;
@@ -147,7 +147,7 @@ public class CliNettyChatMainFrame {
 
     public void login(String name){
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setRequestId(ClientRequestID.Chat_Login.getId());
+        loginRequestPacket.setRequestId(ClientProtocolID.Chat_Login_Request.getId());
         loginRequestPacket.getMap().put("name",name);
         loginRequestPacket.setName(name);
 

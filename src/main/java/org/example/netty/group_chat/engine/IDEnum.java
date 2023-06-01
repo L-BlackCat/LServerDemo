@@ -9,6 +9,11 @@ import java.util.List;
  * id 枚举
  */
 public interface IDEnum {
+    int REQUEST_TYPE =1;
+    int RESPONSE_TYPE = 2;
+
+    int RESPONSE_ID = 100000;
+
     int getId();
     
     static void checkIDDuplicate(IDEnum[] values) throws Exception {
