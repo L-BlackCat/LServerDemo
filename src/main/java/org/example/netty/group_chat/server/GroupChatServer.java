@@ -12,6 +12,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
 import org.example.netty.group_chat.codec.GroupChatMessageEncode;
 import org.example.netty.group_chat.engine.ClientRequestMgr;
+import org.example.netty.group_chat.logger.Debug;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,15 +49,15 @@ public class GroupChatServer {
             ChannelFuture cf = serverBootstrap.bind(1314).sync();
             cf.addListener(future -> {
                 if(future.isSuccess()){
-                    System.out.println("连接端口 1314 成功");
+                    Debug.info("连接端口 1314 成功");
                 }else {
-                    System.out.println("连接端口 1314 失败");
+                    Debug.warn("连接端口 1314 失败");
                 }
             });
 
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            System.out.println("服务器启动失败");
+            Debug.warn("服务器启动失败");
             e.printStackTrace();
         } finally {
             bossGroup.shutdownGracefully();

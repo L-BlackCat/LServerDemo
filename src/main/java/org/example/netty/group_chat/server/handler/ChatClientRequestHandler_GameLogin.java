@@ -7,6 +7,7 @@ import org.example.netty.group_chat.bean.LoginRequestPacket;
 import org.example.netty.group_chat.bean.LoginResponsePacket;
 import org.example.netty.group_chat.data_pack.Packet;
 import org.example.netty.group_chat.engine.ChatClientRequestHandlerBase;
+import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.server.ChatUserMgr;
 
 public class ChatClientRequestHandler_GameLogin extends ChatClientRequestHandlerBase<LoginRequestPacket> {
@@ -21,7 +22,7 @@ public class ChatClientRequestHandler_GameLogin extends ChatClientRequestHandler
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
         loginResponsePacket.setRequestId(packet.getRequestId());
         loginResponsePacket.setCodeEnum(ChatErrCodeEnum.SUCCESS);
-        System.out.println(name + "is login success");
+        Debug.info(name + "is login success");
         System.out.println(JSON.toJSONString(loginResponsePacket));
         return loginResponsePacket;
     }

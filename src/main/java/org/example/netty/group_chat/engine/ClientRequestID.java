@@ -14,7 +14,7 @@ public enum ClientRequestID implements IDEnum{
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     public static ClientRequestID toEnum(int id){

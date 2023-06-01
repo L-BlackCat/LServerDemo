@@ -2,13 +2,13 @@ package org.example.netty.group_chat.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.example.netty.group_chat.data_pack.Packet;
 
-public class GroupChatClientHandler extends SimpleChannelInboundHandler<String> {
+public class GroupChatClientHandler extends SimpleChannelInboundHandler<Packet> {
+
+
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println(msg.trim());
+    protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception {
+
     }
-
-
-
 }

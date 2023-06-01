@@ -12,6 +12,7 @@ import org.example.netty.group_chat.data_pack.ClientResponseData;
 import org.example.netty.group_chat.data_pack.Packet;
 import org.example.netty.group_chat.engine.ClientRequestMgr;
 import org.example.netty.group_chat.engine.IRequestHandler;
+import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
 
 import java.text.SimpleDateFormat;
@@ -31,21 +32,21 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         channelGroup.add(channel);
-        System.out.println(channel.remoteAddress() + "连接成功...");
+        Debug.info(channel.remoteAddress() + "连接成功...");
     }
 
     //表示channel 处于活动状态, 提示 xx上线
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        System.out.println(ctx.channel().remoteAddress() + " 上线了~");
+        Debug.info(ctx.channel().remoteAddress() + " 上线了~");
     }
 
     //表示channel 处于不活动状态, 提示 xx离线了
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         //  LFH 如何设置不活跃状态的时间戳？
-        System.out.println(ctx.channel().remoteAddress() + " 离线了~");
+        Debug.info(ctx.channel().remoteAddress() + " 离线了~");
     }
 
     @Override
@@ -55,13 +56,14 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
 
         IRequestHandler handler = ClientRequestMgr.Instance.createById(requestId);
         if(handler == null){
-            System.out.println("找不到requestId对应的handler");
+            Debug.err("找不到requestId对应的handler");
             return;
         }
 
         try{
             //  对协议进行处理，应该有一个返回数据
-            handler.onProcess(ctx,requestPack,now);
+            Packet responsePack = handler.onProcess(ctx, requestPack, now);
+            ctx.writeAndFlush(responsePack);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -70,7 +72,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        System.out.println(channel.remoteAddress() + "断开连接...");
+        Debug.info(channel.remoteAddress() + "断开连接...");
         channelGroup.remove(channel);
     }
 
@@ -89,7 +91,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
                 break;
             case WRITER_IDLE:
             case ALL_IDLE:
-                System.out.println(ctx.channel().remoteAddress() + " ----超时----");
+                Debug.warn(ctx.channel().remoteAddress() + " ----超时----");
 
                 ctx.close();
                 break;
