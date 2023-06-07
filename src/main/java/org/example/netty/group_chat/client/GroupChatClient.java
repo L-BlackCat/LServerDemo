@@ -10,8 +10,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.example.netty.group_chat.bean.LoginRequestPacket;
 import org.example.netty.group_chat.bean.MessageRequestPacket;
+import org.example.netty.group_chat.cli_main.CliNettyChatLoginFrame;
+import org.example.netty.group_chat.cli_main.CliNettyChatMainFrame;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
 import org.example.netty.group_chat.codec.GroupChatMessageEncode;
+import org.example.netty.group_chat.codec.GroupChatSpliter;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 
@@ -21,9 +24,61 @@ public class GroupChatClient {
     public static final int MAX_RETRY = 5;
     public static boolean isRun = true;
 
+    public static CliNettyChatMainFrame mainFrame;
+
+
     public static void main(String[] args) throws InterruptedException {
+//        ClientProtocolMgr.Instance.onServerStart();
+//        NioEventLoopGroup loopGroup = new NioEventLoopGroup();
+//        try {
+//            Bootstrap bootstrap = new Bootstrap();
+//            bootstrap.group(loopGroup)
+//                    .channel(NioSocketChannel.class)
+//                    .handler(new ChannelInitializer<SocketChannel>() {
+//                        @Override
+//                        protected void initChannel(SocketChannel ch) throws Exception {
+//                            ChannelPipeline pipeline = ch.pipeline();
+////                            pipeline.addLast(new GroupChatSpliter());
+//                            pipeline.addLast("decoder", new GroupChatMessageDecode());
+//                            pipeline.addLast("encoder", new GroupChatMessageEncode());
+//
+//                            pipeline.addLast(new GroupChatClientHandler());
+//                        }
+//                    });
+//            ChannelFuture cf = bootstrap.connect("localhost", 1314).sync();
+//            cf.addListener(future -> {
+//                if (future.isSuccess()) {
+//                    System.out.println("客户端连接成功");
+//                } else {
+//                    System.out.println("客户单连接失败，重新连接");
+////                    connect(bootstrap,"localhost",1314,5);
+//                }
+//            });
+//
+//            Channel channel = cf.channel();
+//
+//
+//            System.out.println("--------------" + channel.remoteAddress() + "-------------");
+//
+//
+//            login(channel);
+//
+//            startConsoleThread(channel);
+//
+//            cf.channel().closeFuture().sync();
+//            System.out.println("结束");
+//
+//        } finally {
+//            loopGroup.shutdownGracefully();
+//            isRun = false;
+//        }
+
         ClientProtocolMgr.Instance.onServerStart();
-        NioEventLoopGroup loopGroup = new NioEventLoopGroup();
+        mainFrame = new CliNettyChatMainFrame();
+    }
+
+    public static void start(String name) throws InterruptedException {
+          NioEventLoopGroup loopGroup = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(loopGroup)
@@ -32,6 +87,7 @@ public class GroupChatClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
+//                            pipeline.addLast(new GroupChatSpliter());
                             pipeline.addLast("decoder", new GroupChatMessageDecode());
                             pipeline.addLast("encoder", new GroupChatMessageEncode());
 
@@ -41,7 +97,10 @@ public class GroupChatClient {
             ChannelFuture cf = bootstrap.connect("localhost", 1314).sync();
             cf.addListener(future -> {
                 if (future.isSuccess()) {
+                    Channel channel = cf.channel();
                     System.out.println("客户端连接成功");
+                    login(channel,name);
+                    mainFrame.show(channel);
                 } else {
                     System.out.println("客户单连接失败，重新连接");
 //                    connect(bootstrap,"localhost",1314,5);
@@ -49,13 +108,7 @@ public class GroupChatClient {
             });
 
             Channel channel = cf.channel();
-
-
             System.out.println("--------------" + channel.remoteAddress() + "-------------");
-
-            login(channel);
-
-            startConsoleThread(channel);
 
             cf.channel().closeFuture().sync();
             System.out.println("结束");
@@ -64,16 +117,16 @@ public class GroupChatClient {
             loopGroup.shutdownGracefully();
             isRun = false;
         }
-
     }
 
-    public static void login(Channel channel){
+    public static void login(Channel channel,String name){
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setRequestId(ClientProtocolID.Chat_Login_Request.getId());
-        loginRequestPacket.getMap().put("name", "li");
-        loginRequestPacket.setName("li");
+        loginRequestPacket.getMap().put("name", name);
+        loginRequestPacket.setName(name);
 
         channel.writeAndFlush(loginRequestPacket);
+        channel.attr(IAttributes.NAME).set(name);
     }
 
     public static void startConsoleThread(Channel channel){
@@ -90,6 +143,20 @@ public class GroupChatClient {
                     channel.writeAndFlush(packet);
                 }
             }
+//            while(!Thread.interrupted() && isRun){
+//
+//                if(ChannelAttrUtil.Instance.hasLogin(channel)){
+//                    String msg = "你好，欢迎关注我的微信公众号，《闪电侠的博客》!";
+//                    for (int i = 0; i < 1000; i++) {
+//                        String newMsg = msg + i;
+//                        MessageRequestPacket packet = new MessageRequestPacket();
+//                        packet.setMsg(newMsg);
+//                        packet.setRequestId(ClientProtocolID.Chat_Message_Request.getId());
+//                        channel.writeAndFlush(packet);
+//                    }
+//                    isRun = false;
+//                }
+//            }
         }).start();
 
     }
