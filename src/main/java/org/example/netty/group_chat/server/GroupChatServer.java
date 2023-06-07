@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
 import org.example.netty.group_chat.codec.GroupChatMessageEncode;
+import org.example.netty.group_chat.codec.GroupChatSpliter;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.logger.Debug;
 
@@ -37,6 +38,7 @@ public class GroupChatServer {
                             //  获取pipeline
                             ChannelPipeline pipeline = ch.pipeline();
 
+//                            pipeline.addLast(new GroupChatSpliter());
                             pipeline.addLast(new GroupChatMessageDecode());
                             //  增加心跳检测机制
                             pipeline.addLast(new IdleStateHandler(7000,7000,100, TimeUnit.SECONDS));

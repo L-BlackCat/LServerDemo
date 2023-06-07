@@ -1,8 +1,11 @@
 package org.example.netty.group_chat.cli_main;
 
 import io.netty.channel.Channel;
-import org.example.netty.group_chat.bean.LoginRequestPacket;
+import org.example.netty.group_chat.bean.MessageRequestPacket;
+import org.example.netty.group_chat.client.IAttributes;
+import org.example.netty.group_chat.engine.ChatEnum;
 import org.example.netty.group_chat.engine.ClientProtocolID;
+import org.example.netty.group_chat.engine.entity.Session;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Collection;
+import java.util.Collections;
 
 public class CliNettyChatMainFrame {
     static int WIDTH = 800;
@@ -17,30 +22,28 @@ public class CliNettyChatMainFrame {
 
     JFrame frame = new JFrame("CliChatMainFrame");
 
-    JTextArea readContext = new JTextArea(18,30);   //显示消息文本框
+    public JTextArea readContext = new JTextArea(18,30);   //显示消息文本框
     JTextArea writeContext = new JTextArea(6,30);   //发送消息文本框
     JTextField txtName; //文本框
     JButton btnSend = new JButton("发送");
     JButton btnExit = new JButton("关闭");
-    String name;
 
     //  LFH 对model的增删可以，list也会增删
-    DefaultListModel<String> model = new DefaultListModel<>();
-    JList<String> list = new JList<>(model);
+    public DefaultListModel<Session> model = new DefaultListModel<>();
+    JList<Session> list = new JList<>(model);
 
     Channel channel;
 
     CliNettyChatLoginFrame loginFrame;
 
-    boolean isRun;
-
-    public CliNettyChatMainFrame(Channel channel,String name,CliNettyChatLoginFrame loginFrame) throws HeadlessException {
-        this.channel = channel;
-        this.name = name;
-        this.loginFrame = loginFrame;
-        isRun = true;
+    public CliNettyChatMainFrame() {
+        loginFrame = new CliNettyChatLoginFrame();
+        loginFrame.setVisible(true);
     }
-    public void init(){
+
+    public void init(Channel channel){
+        this.channel = channel;
+        String name = channel.attr(IAttributes.NAME).get();
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
@@ -86,8 +89,6 @@ public class CliNettyChatMainFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 //  LFH 通知聊天服务器断开连接
-                isRun = false;
-                channel.writeAndFlush("exit_" + name);
                 System.exit(0);
 
             }
@@ -95,17 +96,13 @@ public class CliNettyChatMainFrame {
 
         btnExit.addActionListener(e -> {
             // LFH  通知聊天服务器断开连接
-            isRun = false;
-            channel.writeAndFlush("exit_" + name);
             System.exit(0);
         });
 
         btnSend.addActionListener(e -> {
             //  LFH 将消息发送给聊天服务器，交给聊天服务器发送给其他客户端
-            String msg = writeContext.getText();
-            if(!msg.trim().isEmpty()){
-                channel.writeAndFlush(name + "^" + msg);
-            }
+            writeContext.setText(writeContext.getText() + "\n");
+            writeMsg();
             writeContext.setText("");
             writeContext.requestFocus();
         });
@@ -124,12 +121,10 @@ public class CliNettyChatMainFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    String msg = writeContext.getText();
-                    if(msg.trim().length() > 0){
-                        channel.writeAndFlush(name + "^" + msg);
-                    }
+                    writeMsg();
                     writeContext.setText("");
                     writeContext.requestFocus();
+
                 }
             }
         });
@@ -138,48 +133,28 @@ public class CliNettyChatMainFrame {
 
     }
 
-    public void show(){
-        init();
-        login(name);
-        new MyThread().start();
-        frame.setVisible(true);
-    }
-
-    public void login(String name){
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setRequestId(ClientProtocolID.Chat_Login_Request.getId());
-        loginRequestPacket.getMap().put("name",name);
-        loginRequestPacket.setName(name);
-
-        channel.writeAndFlush(loginRequestPacket);
-    }
-
-    class MyThread extends Thread{
-
-        @Override
-        public void run() {
-            while(isRun){
-//                String content = clientService.readInfo();
-                String content = "";
-                if(content != null){
-                    System.out.println(content);
-                    if(content.startsWith("[") && content.endsWith("]")){
-
-                        content = content.substring(1,content.length() - 1);
-                        String[] split = content.split(",");
-                        model.removeAllElements();
-                        for (String name : split) {
-                            model.addElement(name);
-                        }
-                    }else {
-                        String str = readContext.getText() + content;
-                        readContext.setText(str);
-                        readContext.selectAll();
-                    }
-                }
-
-            }
+    public void writeMsg(){
+        String msg = writeContext.getText();
+        if(!msg.trim().isEmpty()){
+            MessageRequestPacket packet = new MessageRequestPacket();
+            packet.setMsg(msg);
+            packet.setRequestId(ClientProtocolID.Chat_Message_Request.getId());
+            packet.setChatType(ChatEnum.Public_Chat.toInt());
+            channel.writeAndFlush(packet);
         }
+    }
+
+    public void updateModel(Collection<Session> sessions){
+        this.model.removeAllElements();
+        for (Session session : sessions) {
+            this.model.addElement(session);
+        }
+    }
+
+    public void show(Channel channel){
+        init(channel);
+        loginFrame.setVisible(false);
+        frame.setVisible(true);
     }
 
 }

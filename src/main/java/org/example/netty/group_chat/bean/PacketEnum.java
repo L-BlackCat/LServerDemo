@@ -8,6 +8,11 @@ public enum PacketEnum {
 
     Message_Request(ClientProtocolID.Chat_Message_Request.getId(),"消息请求",MessageRequestPacket.class),
     Message_Response(ClientProtocolID.Chat_Message_Response.getId(),"发送消息响应", ResponsePacket.class),
+
+
+
+    Logout_Request(ClientProtocolID.Chat_Logout_Request.getId(),"登出请求", PacketData.class),
+    Logout_Response(ClientProtocolID.Chat_Logout_Response.getId(),"登出响应", ResponsePacket.class),
     ;
 
     private int id;

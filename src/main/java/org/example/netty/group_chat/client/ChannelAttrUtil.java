@@ -11,6 +11,7 @@ public enum ChannelAttrUtil {
         channel.attr(IAttributes.LOGIN).set(true);
     }
 
+
     public boolean hasLogin(Channel channel){
         Attribute<Boolean> loginAttr = channel.attr(IAttributes.LOGIN);
         return loginAttr.get() != null && loginAttr.get();

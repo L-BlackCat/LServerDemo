@@ -10,7 +10,7 @@ public class GroupChatMessageEncode extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet pack, ByteBuf out) throws Exception {
-        Debug.info("开始进行编码----");
+        Debug.debug("开始进行编码----");
         ByteBuf buf = PacketCodeC.Instance.encode(pack);
         out.writeBytes(buf);
     }

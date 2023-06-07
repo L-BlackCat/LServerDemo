@@ -1,7 +1,7 @@
 package org.example.netty.group_chat.bean;
 
-import org.example.netty.group_chat.IObject;
-import org.example.netty.group_chat.JObject;
+import org.example.netty.group_chat.engine.entity.IObject;
+import org.example.netty.group_chat.engine.entity.JObject;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
 
 import java.io.Serializable;

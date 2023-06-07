@@ -3,32 +3,19 @@ package org.example.netty.group_chat.server;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.concurrent.GlobalEventExecutor;
-import org.example.netty.group_chat.KDateUtil;
+import org.example.netty.group_chat.engine.utils.KDateUtil;
 import org.example.netty.group_chat.bean.Packet;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.engine.IRequestHandler;
 import org.example.netty.group_chat.logger.Debug;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandler<Packet> {
-
-
-    private static final Map<Channel,String> channelNameMap = new HashMap<>();
-    SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        ChatUserMgr.Instance.addChannel(channel);
+        GlobalSessionMgr.Instance.addChannel(channel);
         Debug.info(channel.remoteAddress() + "连接成功...");
     }
 
@@ -42,8 +29,13 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     //表示channel 处于不活动状态, 提示 xx离线了
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        //  LFH 如何设置不活跃状态的时间戳？
-        Debug.info(ctx.channel().remoteAddress() + " 离线了~");
+        Channel channel = ctx.channel();
+        //  LFH 如何设置不活跃状态的时间戳？  通过IdleSateHandler(检测心跳handler)来进行设置
+
+        Debug.info(GlobalSessionMgr.Instance.getName(channel) + " 离线了...");
+
+        //  当玩家离线后，将会话信息删除
+        GlobalSessionMgr.Instance.unbind(channel);
     }
 
     @Override
@@ -60,8 +52,8 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
         try{
             //  对协议进行处理，应该有一个返回数据
             Packet responsePack = handler.onProcess(ctx, requestPack, now);
-            ctx.channel().writeAndFlush(responsePack);
-            Debug.info("发送数据成功");
+//            ctx.channel().writeAndFlush(responsePack);
+//            Debug.info("发送数据成功");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -70,8 +62,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        Debug.info(channel.remoteAddress() + "断开连接...");
-        ChatUserMgr.Instance.removeChannel(channel);
+        Debug.info(GlobalSessionMgr.Instance.getName(channel) + " 断开连接...");
     }
 
     @Override
@@ -89,25 +80,12 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
                 break;
             case WRITER_IDLE:
             case ALL_IDLE:
-                Debug.warn(ctx.channel().remoteAddress() + " ----超时----");
-
+                Debug.warn(GlobalSessionMgr.Instance.getName(ctx.channel()) + " ----超时----");
                 ctx.close();
                 break;
         }
 
     }
 
-    public static void main(String[] args) {
-        long now = 1685083085;
-        Random random = new Random(now);
 
-        for (int i = 0; i < 5; i++) {
-
-            for (int j = 0; j < 10; j++) {
-                System.out.print(random.nextInt(100) + " ");
-            }
-            System.out.println();
-        }
-
-    }
 }

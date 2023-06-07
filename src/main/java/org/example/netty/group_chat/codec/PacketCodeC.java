@@ -27,7 +27,7 @@ public enum PacketCodeC {
 
         byteBuf.writeLong(ClientProtocolMgr.MAGIC_NUM);
 
-        byteBuf.writeInt(packet.version());
+        byteBuf.writeByte(packet.version());
 
         byteBuf.writeByte(IChatSerializer.DEFAULT.getSerializeType());
 
@@ -48,7 +48,7 @@ public enum PacketCodeC {
             return null;
         }
 
-        int version = buf.readInt();
+        byte version = buf.readByte();
         byte serializeType = buf.readByte();
         int requestId = buf.readInt();
         int len = buf.readInt();

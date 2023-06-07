@@ -11,14 +11,14 @@ import java.util.List;
 public class GroupChatMessageDecode extends ReplayingDecoder<Packet> {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("进入编码");
+        Debug.debug("进入编码");
     }
 
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         try{
-            Debug.info(ctx.channel().remoteAddress() + " 开始进行了解码");
+            Debug.debug(ctx.channel().remoteAddress() + " 开始进行了解码");
             Packet packetData = PacketCodeC.Instance.decode(in);
             if(packetData == null){
                 return;

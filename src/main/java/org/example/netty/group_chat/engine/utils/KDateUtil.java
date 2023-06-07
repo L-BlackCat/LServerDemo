@@ -1,4 +1,4 @@
-package org.example.netty.group_chat;
+package org.example.netty.group_chat.engine.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

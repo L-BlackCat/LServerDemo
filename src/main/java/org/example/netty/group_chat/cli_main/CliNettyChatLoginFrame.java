@@ -12,6 +12,7 @@ import org.example.netty.group_chat.client.GroupChatClient;
 import org.example.netty.group_chat.client.GroupChatClientHandler;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
 import org.example.netty.group_chat.codec.GroupChatMessageEncode;
+import org.example.netty.group_chat.logger.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,7 +57,11 @@ public class CliNettyChatLoginFrame extends JFrame {
                         return;
                     }
                     new Thread(() -> {
-                        start(name);
+                        try {
+                            GroupChatClient.start(name);
+                        } catch (InterruptedException ex) {
+                            Debug.err("连接失败",ex);
+                        }
                     }).start();
 
 
@@ -79,52 +84,51 @@ public class CliNettyChatLoginFrame extends JFrame {
 
     }
 
-    public void start(String name){
-        NioEventLoopGroup loopGroup = new NioEventLoopGroup();
-        try{
-            Bootstrap bootstrap = new Bootstrap();
-            bootstrap.group(loopGroup)
-                    .channel(NioSocketChannel.class)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline pipeline = ch.pipeline();
-//                        pipeline.addLast("decoder", new GroupChatMessageDecode());
-//                        pipeline.addLast("encoder", new GroupChatMessageEncode());
-
-                            pipeline.addLast( new GroupChatMessageDecode());
-                            pipeline.addLast(new GroupChatMessageEncode());
-                            pipeline.addLast(new GroupChatClientHandler());
-                        }
-                    });
-
-            ChannelFuture cf = bootstrap.connect("localhost", 1314);
-
-
-            cf.addListener(future -> {
-                if(future.isSuccess()){
-                    System.out.println("客户端连接成功");
-                }else {
-                    System.out.println("客户单连接失败，重新连接");
-//                    bootstrap.connect("localhost",1314);
-                }
-            });
-
-            Channel channel = cf.channel();
-            System.out.println("--------------" + channel.remoteAddress() + "-------------");
-            //  创建客户端服务
-            CliNettyChatMainFrame mainFrame = new CliNettyChatMainFrame(channel,name,this);
-            mainFrame.show();
-            this.setVisible(false);
-
-            cf.channel().closeFuture().sync();
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            loopGroup.shutdownGracefully();
-        }
-    }
+//    public void start(String name){
+//        NioEventLoopGroup loopGroup = new NioEventLoopGroup();
+//        try{
+//            Bootstrap bootstrap = new Bootstrap();
+//            bootstrap.group(loopGroup)
+//                    .channel(NioSocketChannel.class)
+//                    .handler(new ChannelInitializer<SocketChannel>() {
+//                        @Override
+//                        protected void initChannel(SocketChannel ch) throws Exception {
+//                            ChannelPipeline pipeline = ch.pipeline();
+//
+//
+//                            pipeline.addLast(new GroupChatMessageDecode());
+//                            pipeline.addLast(new GroupChatMessageEncode());
+//
+//                            pipeline.addLast(new GroupChatClientHandler());
+//                        }
+//                    });
+//
+//            ChannelFuture cf = bootstrap.connect("localhost", 1314);
+//
+//
+//            cf.addListener(future -> {
+//                if(future.isSuccess()){
+//                    System.out.println("客户端连接成功");
+//                }else {
+//                    System.out.println("客户单连接失败，重新连接");
+//                }
+//            });
+//
+//            Channel channel = cf.channel();
+//            System.out.println("--------------" + channel.remoteAddress() + "-------------");
+//            //  创建客户端服务
+//            CliNettyChatMainFrame mainFrame = new CliNettyChatMainFrame(channel,name,this);
+//            mainFrame.show();
+//            this.setVisible(false);
+//
+//            cf.channel().closeFuture().sync();
+//
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            loopGroup.shutdownGracefully();
+//        }
+//    }
 
 
     public static void main(String[] args) {
