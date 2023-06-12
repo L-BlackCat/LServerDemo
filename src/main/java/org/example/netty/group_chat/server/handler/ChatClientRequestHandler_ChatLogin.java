@@ -15,7 +15,7 @@ import org.example.netty.group_chat.server.GlobalSessionMgr;
 
 import java.util.List;
 
-public class ChatClientRequestHandler_GameLogin extends ChatClientRequestHandlerBase<LoginRequestPacket> {
+public class ChatClientRequestHandler_ChatLogin extends ChatClientRequestHandlerBase<LoginRequestPacket> {
 
     @Override
     public Packet onProcess(ChannelHandlerContext ctx, LoginRequestPacket packet, long now) {
@@ -31,15 +31,15 @@ public class ChatClientRequestHandler_GameLogin extends ChatClientRequestHandler
         responsePacket.getMap().put("session", session);
         Debug.info(session + " is login success");
         Debug.info(JSON.toJSONString(responsePacket));
-        channel.writeAndFlush(responsePacket);
 
 
 
         //  登录响应
-        ResponsePacket loginPushMessage = new ResponsePacket();
-        loginPushMessage.setRequestId(ClientProtocolID.Chat_Message_Response.getId());
-        loginPushMessage.setCodeEnum(ChatErrCodeEnum.SUCCESS);
-        GlobalSessionMgr.Instance.sendMsg(channel,loginPushMessage);
+        ResponsePacket updateHallPacket = new ResponsePacket();
+        updateHallPacket.setRequestId(ClientProtocolID.Chat_Message_Response.getId());
+        updateHallPacket.getMap().put("session_list",sessionList);
+        updateHallPacket.setCodeEnum(ChatErrCodeEnum.SUCCESS);
+        GlobalSessionMgr.Instance.sendMsgToOther(channel,updateHallPacket);
 
         return responsePacket;
     }

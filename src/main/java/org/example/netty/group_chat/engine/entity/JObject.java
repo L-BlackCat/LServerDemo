@@ -4,10 +4,12 @@ package org.example.netty.group_chat.engine.entity;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import org.example.netty.group_chat.logger.Debug;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +21,14 @@ public class JObject implements IObject, Serializable {
         this.json = new JSONObject();
     }
 
-    public JSONObject getFastJson(){
+    public JSONObject getMapJson(){
         return json;
+    }
+
+    public static IObject fromFastJson(JSONObject jsonObject){
+        JObject ret = new JObject();
+        ret.json = jsonObject;
+        return ret;
     }
 
 
@@ -119,7 +127,7 @@ public class JObject implements IObject, Serializable {
         }
         else if(obj instanceof List){
             List list = (List) obj;
-            return json.put(key,list);
+            return json.put(key,JArray.toList(list));
         }
         else if(obj instanceof Map){
             return json.put(key, JSON.toJSON(  obj));
@@ -207,6 +215,19 @@ public class JObject implements IObject, Serializable {
     }
 
     @Override
+    public IArray getIArray(String key) {
+        return new JArray(json.getJSONArray(key));
+    }
+
+    @Override
+    public IObject getIObject(String key) {
+        if(json.containsKey(key)){
+            return JObject.fromFastJson(json.getJSONObject(key));
+        }
+        return null;
+    }
+
+    @Override
     public String toJSONString () {
 //		return json.toString(SerializerFeature.WriteNonStringKeyAsString);
 
@@ -226,4 +247,5 @@ public class JObject implements IObject, Serializable {
     public <T> T getObject(String key, Class<T> clazz) {
         return this.json.getObject(key,clazz);
     }
+
 }

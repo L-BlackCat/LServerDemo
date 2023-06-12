@@ -2,34 +2,24 @@ package org.example.netty.group_chat.client;
 
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
+import org.example.netty.group_chat.engine.entity.Session;
 
 public enum ChannelAttrUtil {
     Instance;
 
 
-    public void markAsLogin(Channel channel){
-        channel.attr(IAttributes.LOGIN).set(true);
+    public void markAsLogin(Channel channel, Session session){
+        channel.attr(IAttributes.SESSION).set(session);
     }
 
 
     public boolean hasLogin(Channel channel){
-        Attribute<Boolean> loginAttr = channel.attr(IAttributes.LOGIN);
-        return loginAttr.get() != null && loginAttr.get();
+        Attribute<Session> loginAttr = channel.attr(IAttributes.SESSION);
+        return loginAttr.get() != null;
     }
 
-
-    public void markAsName(Channel channel,String name){
-        channel.attr(IAttributes.NAME).set(name);
+    public Session getSession(Channel channel){
+        Attribute<Session> attr = channel.attr(IAttributes.SESSION);
+        return attr.get();
     }
-
-    public String getName(Channel channel){
-        Attribute<String> nameAttr = channel.attr(IAttributes.NAME);
-        String defaultName = "无名氏";
-        if(nameAttr.get() != null){
-            defaultName = nameAttr.get();
-        }
-        return defaultName;
-    }
-
-
 }

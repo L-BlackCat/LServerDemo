@@ -3,7 +3,7 @@ package org.example.netty.group_chat.cli_main;
 import io.netty.channel.Channel;
 import org.example.netty.group_chat.bean.MessageRequestPacket;
 import org.example.netty.group_chat.client.IAttributes;
-import org.example.netty.group_chat.engine.ChatEnum;
+import org.example.netty.group_chat.engine.ChatTypeEnum;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.engine.entity.Session;
 
@@ -14,7 +14,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Collection;
-import java.util.Collections;
 
 public class CliNettyChatMainFrame {
     static int WIDTH = 800;
@@ -139,7 +138,7 @@ public class CliNettyChatMainFrame {
             MessageRequestPacket packet = new MessageRequestPacket();
             packet.setMsg(msg);
             packet.setRequestId(ClientProtocolID.Chat_Message_Request.getId());
-            packet.setChatType(ChatEnum.Public_Chat.toInt());
+            packet.setChatType(ChatTypeEnum.Public_Chat.toInt());
             channel.writeAndFlush(packet);
         }
     }

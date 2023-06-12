@@ -10,10 +10,6 @@ public enum ClientProtocolID implements IDEnum{
 
 
 
-
-
-
-
     //  响应
     Chat_Login_Response(Chat_Login_Request.id + RESPONSE_ID,"聊天登录响应",RESPONSE_TYPE ),
     Chat_Message_Response(Chat_Message_Request.id + RESPONSE_ID,"发送消息响应",RESPONSE_TYPE ),

@@ -1,6 +1,6 @@
 package org.example.netty.group_chat.engine;
 
-public enum ChatEnum {
+public enum ChatTypeEnum {
     Public_Chat(1,"公共聊天"),
     Private_Chat(2,"私人聊天"),
     ;
@@ -8,7 +8,7 @@ public enum ChatEnum {
     private int id;
     private String desc;
 
-    ChatEnum(int id, String desc) {
+    ChatTypeEnum(int id, String desc) {
         this.id = id;
         this.desc = desc;
     }
@@ -19,8 +19,8 @@ public enum ChatEnum {
     }
 
 
-    public ChatEnum toEnum(int id){
-        for (ChatEnum value : values()) {
+    public ChatTypeEnum toEnum(int id){
+        for (ChatTypeEnum value : values()) {
             if(value.toInt() == id){
                 return value;
             }

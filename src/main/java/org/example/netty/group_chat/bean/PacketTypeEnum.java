@@ -2,7 +2,7 @@ package org.example.netty.group_chat.bean;
 
 import org.example.netty.group_chat.engine.ClientProtocolID;
 
-public enum PacketEnum {
+public enum PacketTypeEnum {
     Login_Request(ClientProtocolID.Chat_Login_Request.getId(),"登录请求",LoginRequestPacket.class),
     Login_Response(ClientProtocolID.Chat_Login_Response.getId(),"登录响应", ResponsePacket.class),
 
@@ -22,7 +22,7 @@ public enum PacketEnum {
     private Class<? extends PacketData> handlerClass;
 
 
-    PacketEnum(int id, String desc, Class<? extends PacketData> handlerClass) {
+    PacketTypeEnum(int id, String desc, Class<? extends PacketData> handlerClass) {
         this.id = id;
         this.desc = desc;
         this.handlerClass = handlerClass;
@@ -32,8 +32,8 @@ public enum PacketEnum {
         return id;
     }
 
-    public static PacketEnum toEnum(int id){
-        for (PacketEnum value : values()) {
+    public static PacketTypeEnum toEnum(int id){
+        for (PacketTypeEnum value : values()) {
             if(value.toInt() == id){
                 return value;
             }
@@ -51,9 +51,9 @@ public enum PacketEnum {
     }
 
     public static  <T extends PacketData> T newHandlerInstance(int id) throws InstantiationException, IllegalAccessException {
-        PacketEnum packetEnum = toEnum(id);
-        if(packetEnum != null){
-            T ret = (T) packetEnum.getHandlerClass().newInstance();
+        PacketTypeEnum packetTypeEnum = toEnum(id);
+        if(packetTypeEnum != null){
+            T ret = (T) packetTypeEnum.getHandlerClass().newInstance();
             return ret;
         }
         return null;

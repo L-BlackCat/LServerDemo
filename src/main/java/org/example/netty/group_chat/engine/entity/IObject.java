@@ -1,9 +1,6 @@
 package org.example.netty.group_chat.engine.entity;
 
-import com.google.protobuf.MapEntry;
-
 import java.util.Collection;
-import java.util.Map;
 
 public interface IObject{
     boolean containsKey(String key);
@@ -26,6 +23,8 @@ public interface IObject{
 
     Object get(String key);
 
+    IArray getIArray(String key);
+    IObject getIObject(String key);
 
     void put(String key,boolean value);
 

@@ -1,8 +1,7 @@
 package org.example.netty.group_chat.bean;
 
-import org.example.netty.group_chat.engine.entity.IObject;
-import org.example.netty.group_chat.engine.entity.JObject;
 import org.example.netty.group_chat.serialization.ChatSerializeType;
+import org.example.netty.group_chat.serialization.jackson.JackSonMap;
 
 import java.io.Serializable;
 
@@ -11,11 +10,13 @@ public abstract class Packet implements Serializable {
 
     int requestId;
     //  LFM JsonObject序列化前和序列化后结构变化
-    IObject map;
+    JackSonMap map;
     ChatSerializeType chatSerializeType = ChatSerializeType.JSON;
 
+    int pushType = PacketPushTypeEnum.PUSH_TO_SELF.toType();
+
     public Packet() {
-        map = new JObject();
+        map = new JackSonMap();
     }
 
     public int getRequestId() {
@@ -26,11 +27,11 @@ public abstract class Packet implements Serializable {
         this.requestId = requestId;
     }
 
-    public IObject getMap() {
+    public JackSonMap getMap() {
         return map;
     }
 
-    public void setMap(JObject map) {
+    public void setMap(JackSonMap map) {
         this.map = map;
     }
 
@@ -46,4 +47,11 @@ public abstract class Packet implements Serializable {
         return VERSION;
     }
 
+    public int getPushType() {
+        return pushType;
+    }
+
+    public void setPushType(int pushType) {
+        this.pushType = pushType;
+    }
 }

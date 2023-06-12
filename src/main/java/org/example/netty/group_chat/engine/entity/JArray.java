@@ -1,13 +1,13 @@
 package org.example.netty.group_chat.engine.entity;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class JArray implements IArray{
+public class JArray implements IArray, Serializable {
     private JSONArray jsonArray = new JSONArray();
 
     public static IArray newInstance(){
@@ -21,6 +21,11 @@ public class JArray implements IArray{
     public JArray(JSONArray jsonArray) {
         this.jsonArray = jsonArray;
     }
+
+    public JSONArray getArrayJson(){
+        return jsonArray;
+    }
+
 
     public static JArray toList(List list){
         JArray ret = new JArray();
@@ -259,16 +264,23 @@ public class JArray implements IArray{
 
     @Override
     public IArray getArray(int index) {
-        return null;
+        return new JArray(this.jsonArray);
     }
 
     @Override
     public IObject getIObject(int index) {
-        return null;
+        return JObject.fromFastJson(jsonArray.getJSONObject(index));
     }
 
     @Override
-    public String toJSONString() {
-        return null;
+    public String toJSONString () {
+        return jsonArray.toJSONString();
     }
+
+    @Override
+    public String toString() {
+        return toJSONString();
+    }
+
+
 }

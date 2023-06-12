@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
+import org.example.netty.group_chat.engine.ChatClientRequestHandlerBase;
 import org.example.netty.group_chat.engine.utils.KDateUtil;
 import org.example.netty.group_chat.bean.Packet;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
@@ -43,7 +44,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
         int requestId = requestPack.getRequestId();
         long now = KDateUtil.Instance.now();
 
-        IRequestHandler handler = ClientProtocolMgr.Instance.createRequestById(requestId);
+        ChatClientRequestHandlerBase handler = ClientProtocolMgr.Instance.createRequestById(requestId);
         if(handler == null){
             Debug.err("找不到requestId对应的handler");
             return;
@@ -51,9 +52,7 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
 
         try{
             //  对协议进行处理，应该有一个返回数据
-            Packet responsePack = handler.onProcess(ctx, requestPack, now);
-//            ctx.channel().writeAndFlush(responsePack);
-//            Debug.info("发送数据成功");
+            handler.process(ctx, requestPack, now);
         }catch (Exception e){
             e.printStackTrace();
         }

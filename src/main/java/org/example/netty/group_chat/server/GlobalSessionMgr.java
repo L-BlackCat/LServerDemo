@@ -5,6 +5,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.example.netty.group_chat.bean.Packet;
+import org.example.netty.group_chat.bean.ResponsePacket;
 import org.example.netty.group_chat.client.IAttributes;
 import org.example.netty.group_chat.engine.entity.Session;
 import org.example.netty.group_chat.engine.utils.KDateUtil;
@@ -23,6 +24,7 @@ public enum GlobalSessionMgr {
     private static final Map<Long,Channel> userIdChannelMap = new ConcurrentHashMap<>();
 
     private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
 
 
     public Session bind(String name,Channel channel){
@@ -74,7 +76,14 @@ public enum GlobalSessionMgr {
         channelGroup.add(channel);
     }
 
-    public void sendMsg(Channel targetChannel,Packet packet){
+    public void sendMsgToEveryOne(Packet packet){
+        channelGroup.forEach(channel -> {
+                channel.writeAndFlush(packet);
+        });
+    }
+
+
+    public void sendMsgToOther(Channel targetChannel,Packet packet){
         channelGroup.forEach(channel -> {
             if(channel != targetChannel){
                 channel.writeAndFlush(packet);
@@ -91,4 +100,6 @@ public enum GlobalSessionMgr {
 
         return sessionList;
     }
+
+
 }

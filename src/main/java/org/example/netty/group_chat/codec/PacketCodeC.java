@@ -2,7 +2,7 @@ package org.example.netty.group_chat.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import org.example.netty.group_chat.bean.PacketEnum;
+import org.example.netty.group_chat.bean.PacketTypeEnum;
 import org.example.netty.group_chat.bean.Packet;
 import org.example.netty.group_chat.bean.PacketData;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
@@ -64,13 +64,13 @@ public enum PacketCodeC {
             return null;
         }
         IChatSerializer handler = chatSerializeType.newInstanceHandler();
-        PacketEnum packetEnum = PacketEnum.toEnum(requestId);
-        if(packetEnum == null){
+        PacketTypeEnum packetTypeEnum = PacketTypeEnum.toEnum(requestId);
+        if(packetTypeEnum == null){
             Debug.err("请求对应的数据类型不存在,packet_id: " + requestId);
             return null;
         }
 
-        Class<? extends PacketData> handlerClass = packetEnum.getHandlerClass();
+        Class<? extends PacketData> handlerClass = packetTypeEnum.getHandlerClass();
         return handler.deserialize(bytes,handlerClass);
     }
 

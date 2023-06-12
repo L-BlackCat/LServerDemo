@@ -8,6 +8,7 @@ import org.example.netty.group_chat.cli_main.CliNettyChatMainFrame;
 import org.example.netty.group_chat.engine.ChatClientResponseHandlerBase;
 import org.example.netty.group_chat.engine.entity.Session;
 import org.example.netty.group_chat.logger.Debug;
+import org.example.netty.group_chat.serialization.jackson.JackSonMap;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,12 +18,12 @@ public class ChatClientResponseHandler_SendMessage extends ChatClientResponseHan
     @Override
     public void onProcess(ChannelHandlerContext ctx, ResponsePacket packet, long now, CliNettyChatMainFrame mainFrame) {
         if(packet.getCodeEnum() == ChatErrCodeEnum.SUCCESS){
-            IObject map = packet.getMap();
+            JackSonMap map = packet.getMap();
             String content = map.getString("message");
-            Session session = map.getObject("session", Session.class);
+            Session session = map.get("session", Session.class);
             Debug.info(content);
 
-            List<Session> sessionsList = map.getObject("session_list", List.class);
+            List<Session> sessionsList = map.getList("session_list", Session.class);
             if(sessionsList != null && !sessionsList.isEmpty()){
                 mainFrame.updateModel(sessionsList);
             }

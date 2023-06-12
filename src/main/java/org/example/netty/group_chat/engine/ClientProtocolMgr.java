@@ -6,7 +6,7 @@ import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_Gam
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_SendMessage;
 import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogout;
-import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_GameLogin;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogin;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_SendMessage;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public enum ClientProtocolMgr {
     }
 
     public void loadRequest(){
-        regRequest(ClientProtocolID.Chat_Login_Request, ChatClientRequestHandler_GameLogin.class);
+        regRequest(ClientProtocolID.Chat_Login_Request, ChatClientRequestHandler_ChatLogin.class);
         regRequest(ClientProtocolID.Chat_Message_Request, ChatClientRequestHandler_SendMessage.class);
         regRequest(ClientProtocolID.Chat_Logout_Request, ChatClientRequestHandler_ChatLogout.class);
     }
@@ -57,7 +57,7 @@ public enum ClientProtocolMgr {
         responseHandlerMap.put(clientProtocolID,handlerClass);
     }
 
-    public IRequestHandler createRequestById(int id) throws InstantiationException, IllegalAccessException {
+    public ChatClientRequestHandlerBase createRequestById(int id) throws InstantiationException, IllegalAccessException {
         ClientProtocolID clientProtocolID = ClientProtocolID.toEnum(id);
         if (requestHandlerMap.containsKey(clientProtocolID)) {
             Class<? extends ChatClientRequestHandlerBase> clazz = requestHandlerMap.get(clientProtocolID);
@@ -68,7 +68,7 @@ public enum ClientProtocolMgr {
         return null;
     }
 
-    public IResponseHandler createResponseById(int id) throws InstantiationException, IllegalAccessException {
+    public ChatClientResponseHandlerBase createResponseById(int id) throws InstantiationException, IllegalAccessException {
         ClientProtocolID clientProtocolID = ClientProtocolID.toEnum(id);
         if (responseHandlerMap.containsKey(clientProtocolID)) {
             Class<? extends ChatClientResponseHandlerBase> clazz = responseHandlerMap.get(clientProtocolID);
