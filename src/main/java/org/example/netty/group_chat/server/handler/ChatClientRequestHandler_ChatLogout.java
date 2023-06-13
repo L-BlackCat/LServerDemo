@@ -26,6 +26,7 @@ public class ChatClientRequestHandler_ChatLogout extends ChatClientRequestHandle
 
         //  更新其他人的大厅数据
         ResponsePacket updateHallPacket = new ResponsePacket();
+        updateHallPacket.setRequestId(ClientProtocolID.Chat_Message_Response.getId());
         List<Session> allSession = GlobalSessionMgr.Instance.allSession();
         Session targetSession = GlobalSessionMgr.Instance.getSession(channel);
         List<Session> ret = new ArrayList<>();

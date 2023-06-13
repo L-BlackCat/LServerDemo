@@ -5,40 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a9ca044-a72d-4a04-8a25-b076e789c391" name="Changes" comment="netty">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketPushTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatSendPacketToEveryHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatSendPacketToOtherHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatSendPacketToSelfHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ISendPacketHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/serialization/jackson/JackSonMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/JsonArrayText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/serizable/JackSonStreamText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/serizable/JackSonText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/serizable/JackSonTreeText.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatHallFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatLoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatLoginFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatMainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatMainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/ChannelAttrUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/ChannelAttrUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/GroupChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/GroupChatClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_ChatLogout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_ChatLogout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_GameLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_GameLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_SendMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatClientRequestHandlerBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatClientRequestHandlerBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/IObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/IObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/JArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/JArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/JObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/entity/JObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/serialization/JsonSerializeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/serialization/JsonSerializeHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GlobalSessionMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GlobalSessionMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GroupChatServerDistributorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GroupChatServerDistributorHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/JsonText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/JsonMapText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/JsonTextPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/JsonTextPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_GameLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_SendMessage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +77,72 @@
       <recent name="org.example.netty.group_chat.serialization" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GroupChatClient 2">
+  <component name="RunManager" selected="Application.CliNettyChatHallFrame">
+    <configuration name="CliNettyChatHallFrame (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.cli_main.CliNettyChatHallFrame" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.netty.group_chat.cli_main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CliNettyChatHallFrame (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.cli_main.CliNettyChatHallFrame" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.netty.group_chat.cli_main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CliNettyChatHallFrame (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.cli_main.CliNettyChatHallFrame" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.netty.group_chat.cli_main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CliNettyChatHallFrame (4)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.cli_main.CliNettyChatHallFrame" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.netty.group_chat.cli_main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CliNettyChatHallFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.cli_main.CliNettyChatHallFrame" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.netty.group_chat.cli_main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GroupChatClient 2" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.client.GroupChatClient" />
       <module name="LServerDemo" />
@@ -131,57 +169,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GroupChatServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.server.GroupChatServer" />
-      <module name="LServerDemo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value=".*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JackSonStreamText" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="serizable.JackSonStreamText" />
-      <module name="LServerDemo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="serizable.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JackSonTreeText" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="serizable.JackSonTreeText" />
-      <module name="LServerDemo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="serizable.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.GroupChatClient" />
       <item itemvalue="Application.GroupChatClient 2" />
-      <item itemvalue="Application.JackSonStreamText" />
-      <item itemvalue="Application.JackSonTreeText" />
-      <item itemvalue="Application.GroupChatServer" />
+      <item itemvalue="Application.CliNettyChatHallFrame" />
+      <item itemvalue="Application.CliNettyChatHallFrame (1)" />
+      <item itemvalue="Application.CliNettyChatHallFrame (2)" />
+      <item itemvalue="Application.CliNettyChatHallFrame (3)" />
+      <item itemvalue="Application.CliNettyChatHallFrame (4)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GroupChatServer" />
-        <item itemvalue="Application.JackSonStreamText" />
-        <item itemvalue="Application.JackSonTreeText" />
+        <item itemvalue="Application.CliNettyChatHallFrame" />
+        <item itemvalue="Application.CliNettyChatHallFrame (4)" />
+        <item itemvalue="Application.CliNettyChatHallFrame (3)" />
+        <item itemvalue="Application.CliNettyChatHallFrame (2)" />
+        <item itemvalue="Application.CliNettyChatHallFrame (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +207,7 @@
       <workItem from="1684119692090" duration="68309000" />
       <workItem from="1684478454386" duration="6198000" />
       <workItem from="1684487025336" duration="23288000" />
-      <workItem from="1685325629670" duration="130593000" />
+      <workItem from="1685325629670" duration="140064000" />
     </task>
     <task id="LOCAL-00001" summary="上传">
       <created>1682596823000</created>
@@ -269,7 +272,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686115018453</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="netty">
+      <created>1686571502860</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1686571502860</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,9 +346,14 @@
           <option name="timeStamp" value="249" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/GroupChatClientHandler.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="259" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogout.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="260" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_SendMessage.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="261" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.IllegalArgumentException" package="java.lang" />

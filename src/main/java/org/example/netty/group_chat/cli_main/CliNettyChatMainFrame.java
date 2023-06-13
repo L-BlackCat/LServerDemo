@@ -1,7 +1,9 @@
 package org.example.netty.group_chat.cli_main;
 
 import io.netty.channel.Channel;
+import org.example.netty.group_chat.bean.LoginRequestPacket;
 import org.example.netty.group_chat.bean.MessageRequestPacket;
+import org.example.netty.group_chat.bean.PacketData;
 import org.example.netty.group_chat.client.IAttributes;
 import org.example.netty.group_chat.engine.ChatTypeEnum;
 import org.example.netty.group_chat.engine.ClientProtocolID;
@@ -33,12 +35,12 @@ public class CliNettyChatMainFrame {
 
     Channel channel;
 
-    CliNettyChatLoginFrame loginFrame;
+//    CliNettyChatLoginFrame loginFrame;
 
-    public CliNettyChatMainFrame() {
-        loginFrame = new CliNettyChatLoginFrame();
-        loginFrame.setVisible(true);
-    }
+//    public CliNettyChatMainFrame() {
+//        loginFrame = new CliNettyChatLoginFrame();
+//        loginFrame.setVisible(true);
+//    }
 
     public void init(Channel channel){
         this.channel = channel;
@@ -88,6 +90,7 @@ public class CliNettyChatMainFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 //  LFH 通知聊天服务器断开连接
+                logout();
                 System.exit(0);
 
             }
@@ -95,6 +98,7 @@ public class CliNettyChatMainFrame {
 
         btnExit.addActionListener(e -> {
             // LFH  通知聊天服务器断开连接
+            logout();
             System.exit(0);
         });
 
@@ -128,8 +132,12 @@ public class CliNettyChatMainFrame {
             }
         });
 
+    }
 
-
+    public void logout(){
+        PacketData packet = new PacketData();
+        packet.setRequestId(ClientProtocolID.Chat_Logout_Request.getId());
+        channel.writeAndFlush(packet);
     }
 
     public void writeMsg(){
@@ -152,7 +160,7 @@ public class CliNettyChatMainFrame {
 
     public void show(Channel channel){
         init(channel);
-        loginFrame.setVisible(false);
+//        loginFrame.setVisible(false);
         frame.setVisible(true);
     }
 

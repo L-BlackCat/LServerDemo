@@ -11,8 +11,8 @@ public class ChatClientResponseHandler_ChatLogout extends ChatClientResponseHand
     @Override
     public void onProcess(ChannelHandlerContext ctx, ResponsePacket packet, long now, CliNettyChatMainFrame mainFrame) {
         //  通知其他连接着，更新列表状态
-        ctx.channel().close();
         Debug.warn("断开连接");
+        ctx.channel().close();
     }
 
 }

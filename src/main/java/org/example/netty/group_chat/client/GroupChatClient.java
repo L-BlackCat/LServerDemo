@@ -10,6 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.example.netty.group_chat.bean.LoginRequestPacket;
 import org.example.netty.group_chat.bean.MessageRequestPacket;
+import org.example.netty.group_chat.cli_main.CliNettyChatHallFrame;
 import org.example.netty.group_chat.cli_main.CliNettyChatLoginFrame;
 import org.example.netty.group_chat.cli_main.CliNettyChatMainFrame;
 import org.example.netty.group_chat.codec.GroupChatMessageDecode;
@@ -26,55 +27,18 @@ public class GroupChatClient {
 
     public static CliNettyChatMainFrame mainFrame;
 
+    public static CliNettyChatLoginFrame loginFrame;
+
+    public static CliNettyChatHallFrame hallFrame;
+
 
     public static void main(String[] args) throws InterruptedException {
-//        ClientProtocolMgr.Instance.onServerStart();
-//        NioEventLoopGroup loopGroup = new NioEventLoopGroup();
-//        try {
-//            Bootstrap bootstrap = new Bootstrap();
-//            bootstrap.group(loopGroup)
-//                    .channel(NioSocketChannel.class)
-//                    .handler(new ChannelInitializer<SocketChannel>() {
-//                        @Override
-//                        protected void initChannel(SocketChannel ch) throws Exception {
-//                            ChannelPipeline pipeline = ch.pipeline();
-////                            pipeline.addLast(new GroupChatSpliter());
-//                            pipeline.addLast("decoder", new GroupChatMessageDecode());
-//                            pipeline.addLast("encoder", new GroupChatMessageEncode());
-//
-//                            pipeline.addLast(new GroupChatClientHandler());
-//                        }
-//                    });
-//            ChannelFuture cf = bootstrap.connect("localhost", 1314).sync();
-//            cf.addListener(future -> {
-//                if (future.isSuccess()) {
-//                    System.out.println("客户端连接成功");
-//                } else {
-//                    System.out.println("客户单连接失败，重新连接");
-////                    connect(bootstrap,"localhost",1314,5);
-//                }
-//            });
-//
-//            Channel channel = cf.channel();
-//
-//
-//            System.out.println("--------------" + channel.remoteAddress() + "-------------");
-//
-//
-//            login(channel);
-//
-//            startConsoleThread(channel);
-//
-//            cf.channel().closeFuture().sync();
-//            System.out.println("结束");
-//
-//        } finally {
-//            loopGroup.shutdownGracefully();
-//            isRun = false;
-//        }
-
         ClientProtocolMgr.Instance.onServerStart();
+        loginFrame = new CliNettyChatLoginFrame();
         mainFrame = new CliNettyChatMainFrame();
+        hallFrame = new CliNettyChatHallFrame();
+
+        loginFrame.setVisible(true);
     }
 
     public static void start(String name) throws InterruptedException {
