@@ -5,53 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a9ca044-a72d-4a04-8a25-b076e789c391" name="Changes" comment="netty">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/RequestPacket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_CreateGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_JoinGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_QuitGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_UpdateGroupMembers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeCHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatRequestID.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatResponseID.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatSendPacketToSpecifiedChannel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/chat_channel/ChatChannelBaseHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/chat_channel/GroupChatEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/chat_channel/IChatChannelHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/chat_channel/PrivateChatChannelHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/chat_channel/PublicChatChannelHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/IMIdleStateHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_CreateGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_JoinGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_QuitGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_UpdateGroupMembers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/READ.md" beforeDir="false" afterPath="$PROJECT_DIR$/READ.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/LoginRequestPacket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/LoginResponsePacket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketPushTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketPushTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatHallFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatHallFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatLoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatLoginFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatMainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/cli_main/CliNettyChatMainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/GroupChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/LNettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/GroupChatClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IMClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IAttributes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IAttributes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_ChatLogout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_ChatLogout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_GameLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_GameLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_SendMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/GroupChatMessageDecode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketDecode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/GroupChatMessageEncode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketEncode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ChatTypeEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/IRequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/IRequestHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GlobalSessionMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GlobalSessionMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GroupChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/LNettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/GroupChatServerDistributorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/IMServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_ChatLogout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_SendMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +144,7 @@
       <workItem from="1685325629670" duration="143925000" />
       <workItem from="1686802645948" duration="14456000" />
       <workItem from="1687139670551" duration="2961000" />
-      <workItem from="1687149221892" duration="21241000" />
+      <workItem from="1687149221892" duration="21322000" />
     </task>
     <task id="LOCAL-00001" summary="上传">
       <created>1682596823000</created>
@@ -269,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686657663200</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="netty">
+      <created>1687262186541</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1687262186541</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
