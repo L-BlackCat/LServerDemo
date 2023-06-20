@@ -1,19 +1,21 @@
 package org.example.netty.group_chat.cli_main;
 
 import io.netty.channel.Channel;
+import org.example.netty.group_chat.bean.RequestPacket;
 import org.example.netty.group_chat.client.IAttributes;
+import org.example.netty.group_chat.engine.ClientProtocolID;
+import org.example.netty.group_chat.engine.chat_channel.GroupChatEnum;
 import org.example.netty.group_chat.engine.entity.Session;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CliNettyChatHallFrame {
     static int WIDTH = 300;
@@ -31,14 +33,16 @@ public class CliNettyChatHallFrame {
     JMenuItem publicMenuItem = new JMenuItem("发起群聊");
     Channel channel;
 
-    CliNettyChatLoginFrame loginFrame;
+    Session session;
 
-    public void init(Channel channel){
-        this.channel = channel;
 
-//        String name = channel.attr(IAttributes.NAME).get();
+    public CliNettyChatHallFrame() {
+    }
 
-        String name = "li";
+
+    public void init(Session session){
+
+
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
         int width = toolkit.getScreenSize().width;
@@ -48,12 +52,12 @@ public class CliNettyChatHallFrame {
         frame.setBounds((int) (width - (WIDTH * 1.5)),  40, WIDTH, HEIGHT);
 
         frame.setLayout(null);
-        frame.setTitle(name + " 聊天窗口");
+        frame.setTitle(session.getName() + " 聊天窗口");
         frame.setSize(WIDTH,HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-//        readContext.setText(name);
+        readContext.setText(session.toString());
         JScrollPane selfScroll = new JScrollPane(readContext);
         selfScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         selfScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -70,14 +74,20 @@ public class CliNettyChatHallFrame {
         frame.add(hallScroll);
 
 
-
-        for (int i = 0; i < 50; i++) {
-            model.addElement(Session.create(i,i+"_hello"));
-        }
         hallScroll.setBounds(5,45,270,500);
         list.setBounds(0,0,270,500);
 
         addMouseListener();
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                //  LFH 通知聊天服务器断开连接
+                logout();
+                System.exit(0);
+            }
+        });
 
 
     }
@@ -88,6 +98,9 @@ public class CliNettyChatHallFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     System.out.println("双击事件");
+                    //  创建聊天框
+                    List<Session> selectSessionList = list.getSelectedValuesList();
+                    requestCreateGroup(GroupChatEnum.Private_Chat,selectSessionList);
                 }
             }
 
@@ -132,16 +145,39 @@ public class CliNettyChatHallFrame {
         popupMenu.show(e.getComponent(),e.getX(),e.getY());
     }
 
+    public void requestCreateGroup(GroupChatEnum groupChatEnum, List<Session> sessionList){
+        RequestPacket requestPacket = new RequestPacket();
+        requestPacket.setRequestId(ClientProtocolID.Chat_Create_Group_Request.getId());
+        requestPacket.getMap().put("session_list",sessionList);
+        requestPacket.getMap().put("chat_type", groupChatEnum.toInt());
+        channel.writeAndFlush(requestPacket);
+    }
+
+    public void updateModel(Collection<Session> sessions){
+        this.model.removeAllElements();
+        for (Session tempSession : sessions) {
+            if(tempSession.getUid() != this.session.getUid()){
+                this.model.addElement(tempSession);
+            }
+        }
+    }
+
+    public void logout(){
+        RequestPacket packet = new RequestPacket();
+        packet.setRequestId(ClientProtocolID.Chat_Logout_Request.getId());
+        channel.writeAndFlush(packet);
+    }
 
 
-    public void show(Channel channel){
-        init(channel);
-
+    public void show(Channel channel,Session session,List<Session> sessionList){
+        this.channel = channel;
+        this.session = session;
+        init(session);
+        updateModel(sessionList);
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        CliNettyChatHallFrame hallFrame = new CliNettyChatHallFrame();
-        hallFrame.show(null);
+    public JFrame getFrame() {
+        return frame;
     }
 }

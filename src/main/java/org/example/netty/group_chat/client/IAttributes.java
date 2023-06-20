@@ -8,4 +8,5 @@ public interface IAttributes {
     AttributeKey<String> NAME = AttributeKey.newInstance("name");
 
     AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
+
 }

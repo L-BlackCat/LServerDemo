@@ -3,16 +3,26 @@ package org.example.netty.group_chat.bean;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 
 public enum PacketTypeEnum {
-    Login_Request(ClientProtocolID.Chat_Login_Request.getId(),"登录请求",LoginRequestPacket.class),
+    Login_Request(ClientProtocolID.Chat_Login_Request.getId(),"登录请求",RequestPacket.class),
     Login_Response(ClientProtocolID.Chat_Login_Response.getId(),"登录响应", ResponsePacket.class),
 
-    Message_Request(ClientProtocolID.Chat_Message_Request.getId(),"消息请求",MessageRequestPacket.class),
+    Message_Request(ClientProtocolID.Chat_Message_Request.getId(),"消息请求",RequestPacket.class),
     Message_Response(ClientProtocolID.Chat_Message_Response.getId(),"发送消息响应", ResponsePacket.class),
 
 
 
-    Logout_Request(ClientProtocolID.Chat_Logout_Request.getId(),"登出请求", PacketData.class),
+    Logout_Request(ClientProtocolID.Chat_Logout_Request.getId(),"登出请求", RequestPacket.class),
     Logout_Response(ClientProtocolID.Chat_Logout_Response.getId(),"登出响应", ResponsePacket.class),
+
+    Create_Group_Request(ClientProtocolID.Chat_Create_Group_Request.getId(),"创建聊天组请求", RequestPacket.class),
+    Create_Group_Response(ClientProtocolID.Chat_Create_Group_Response.getId(),"创建聊天组响应", ResponsePacket.class),
+
+    Join_Group_Request(ClientProtocolID.Join_Group_Request.getId(),"加入聊天组请求", RequestPacket.class),
+    Join_Group_Response(ClientProtocolID.Join_Group_Response.getId(),"加入聊天组响应", ResponsePacket.class),
+
+
+    Quit_Group_Request(ClientProtocolID.Quit_Group_Request.getId(),"离开聊天组请求", RequestPacket.class),
+    Quit_Group_Response(ClientProtocolID.Quit_Group_Response.getId(),"离开聊天组响应", ResponsePacket.class),
     ;
 
     private int id;

@@ -1,6 +1,7 @@
 package org.example.netty.group_chat.server;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -8,10 +9,13 @@ import org.example.netty.group_chat.engine.ChatClientRequestHandlerBase;
 import org.example.netty.group_chat.engine.utils.KDateUtil;
 import org.example.netty.group_chat.bean.Packet;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
-import org.example.netty.group_chat.engine.IRequestHandler;
 import org.example.netty.group_chat.logger.Debug;
 
-public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandler<Packet> {
+/**
+ * IM全名Instant Messaging，中文意思是“即时通讯”
+ */
+@ChannelHandler.Sharable
+public class IMServerHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
@@ -43,6 +47,19 @@ public class GroupChatServerDistributorHandler extends SimpleChannelInboundHandl
     protected void channelRead0(ChannelHandlerContext ctx, Packet requestPack) throws Exception {
         int requestId = requestPack.getRequestId();
         long now = KDateUtil.Instance.now();
+        /**
+         * Netty服务器启动：
+         *  1.一个NioEventLoopGroup用来监听客户端连接
+         *  2.创建了核心cpu数目 * 2的NioEventLoopGroup来监听并处理客户端事件
+         * 高并发问题：
+         *  Netty通过遍历NioEventLoopGroup中的channel来事件处理，channel达到几万或者几十万的量级，
+         *  对应业务处理需要花费一些时间的时候，一个channel的时候，会导致阻塞剩下的channel的执行，拖慢执行速度,造成高延迟。
+         *
+         *  处理方式：
+         *      创建线程进行业务的执行
+         *          缺点：
+         *              会创建大量的线程，线程之前的上下文切换，也会导致性能的下降
+         */
 
         ChatClientRequestHandlerBase handler = ClientProtocolMgr.Instance.createRequestById(requestId);
         if(handler == null){

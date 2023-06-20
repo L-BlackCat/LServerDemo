@@ -4,13 +4,14 @@ import org.checkerframework.checker.units.qual.A;
 import org.example.netty.group_chat.engine.ChatSendPacketToEveryHandler;
 import org.example.netty.group_chat.engine.ChatSendPacketToOtherHandler;
 import org.example.netty.group_chat.engine.ChatSendPacketToSelfHandler;
+import org.example.netty.group_chat.engine.ChatSendPacketToSpecifiedChannel;
 import org.example.netty.group_chat.engine.ISendPacketHandler;
 
 public enum PacketPushTypeEnum {
     PUSH_TO_EVERYONE(1,"推送给所有人", ChatSendPacketToEveryHandler.class),
     PUSH_TO_SELF(2,"推送给自己", ChatSendPacketToSelfHandler.class),
-
     PUSH_TO_OTHER(3,"推送给其他人",ChatSendPacketToOtherHandler.class),
+    PUSH_TO_SPECIFIED_CHANNEL(4,"推送给指定连接", ChatSendPacketToSpecifiedChannel.class),
     ;
 
     private int id;

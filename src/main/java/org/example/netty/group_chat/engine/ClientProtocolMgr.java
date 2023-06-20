@@ -2,11 +2,17 @@ package org.example.netty.group_chat.engine;
 
 
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_ChatLogout;
+import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_CreateGroup;
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_GameLogin;
+import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_JoinGroup;
+import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_QuitGroup;
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_SendMessage;
 import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogout;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogin;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_CreateGroup;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_JoinGroup;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_QuitGroup;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_SendMessage;
 
 import java.util.HashMap;
@@ -20,8 +26,8 @@ public enum ClientProtocolMgr {
         在java字节码的二进制文件中，开头的4字节为0xcafebabe,用来表示一个字节码文件
      */
     public static final long MAGIC_NUM = 0x12345678;
-    Map<ClientProtocolID,Class<? extends ChatClientRequestHandlerBase>> requestHandlerMap = new HashMap<>();
-    Map<ClientProtocolID,Class<? extends ChatClientResponseHandlerBase>> responseHandlerMap = new HashMap<>();
+    public final Map<ClientProtocolID,Class<? extends ChatClientRequestHandlerBase>> requestHandlerMap = new HashMap<>();
+    public final Map<ClientProtocolID,Class<? extends ChatClientResponseHandlerBase>> responseHandlerMap = new HashMap<>();
 
 
     public void onServerStart(){
@@ -33,12 +39,18 @@ public enum ClientProtocolMgr {
         regRequest(ClientProtocolID.Chat_Login_Request, ChatClientRequestHandler_ChatLogin.class);
         regRequest(ClientProtocolID.Chat_Message_Request, ChatClientRequestHandler_SendMessage.class);
         regRequest(ClientProtocolID.Chat_Logout_Request, ChatClientRequestHandler_ChatLogout.class);
+        regRequest(ClientProtocolID.Chat_Create_Group_Request, ChatClientRequestHandler_CreateGroup.class);
+        regRequest(ClientProtocolID.Join_Group_Request, ChatClientRequestHandler_JoinGroup.class);
+        regRequest(ClientProtocolID.Quit_Group_Request, ChatClientRequestHandler_QuitGroup.class);
     }
 
     public void loadResponse(){
         regResponse(ClientProtocolID.Chat_Login_Response, ChatClientResponseHandler_GameLogin.class);
         regResponse(ClientProtocolID.Chat_Message_Response, ChatClientResponseHandler_SendMessage.class);
         regResponse(ClientProtocolID.Chat_Logout_Response, ChatClientResponseHandler_ChatLogout.class);
+        regResponse(ClientProtocolID.Chat_Create_Group_Response, ChatClientResponseHandler_CreateGroup.class);
+        regResponse(ClientProtocolID.Join_Group_Response, ChatClientResponseHandler_JoinGroup.class);
+        regResponse(ClientProtocolID.Quit_Group_Response, ChatClientResponseHandler_QuitGroup.class);
     }
 
     public void regRequest(ClientProtocolID clientProtocolID, Class<? extends ChatClientRequestHandlerBase> handlerClass){

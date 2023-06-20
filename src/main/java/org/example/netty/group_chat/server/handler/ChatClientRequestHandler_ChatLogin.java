@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.example.netty.group_chat.ChatErrCodeEnum;
-import org.example.netty.group_chat.bean.LoginRequestPacket;
-import org.example.netty.group_chat.bean.ResponsePacket;
 import org.example.netty.group_chat.bean.Packet;
+import org.example.netty.group_chat.bean.RequestPacket;
+import org.example.netty.group_chat.bean.ResponsePacket;
 import org.example.netty.group_chat.engine.ChatClientRequestHandlerBase;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.engine.entity.Session;
@@ -15,11 +15,12 @@ import org.example.netty.group_chat.server.GlobalSessionMgr;
 
 import java.util.List;
 
-public class ChatClientRequestHandler_ChatLogin extends ChatClientRequestHandlerBase<LoginRequestPacket> {
+public class ChatClientRequestHandler_ChatLogin extends ChatClientRequestHandlerBase<RequestPacket> {
+    public static final ChatClientRequestHandler_ChatLogin instance = new ChatClientRequestHandler_ChatLogin();
 
     @Override
-    public Packet onProcess(ChannelHandlerContext ctx, LoginRequestPacket packet, long now) {
-        String name = packet.getName();
+    public Packet onProcess(ChannelHandlerContext ctx, RequestPacket packet, long now) {
+        String name = packet.getMap().getString("name");
         Channel channel = ctx.channel();
         Session session = GlobalSessionMgr.Instance.bind(name, channel);
 

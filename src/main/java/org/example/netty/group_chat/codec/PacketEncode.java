@@ -6,7 +6,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import org.example.netty.group_chat.bean.Packet;
 import org.example.netty.group_chat.logger.Debug;
 
-public class GroupChatMessageEncode extends MessageToByteEncoder<Packet> {
+public class PacketEncode extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet pack, ByteBuf out) throws Exception {

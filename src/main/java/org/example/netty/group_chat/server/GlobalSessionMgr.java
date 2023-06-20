@@ -4,17 +4,21 @@ import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.example.netty.group_chat.ChatErrCodeEnum;
 import org.example.netty.group_chat.bean.Packet;
-import org.example.netty.group_chat.bean.ResponsePacket;
 import org.example.netty.group_chat.client.IAttributes;
+import org.example.netty.group_chat.engine.chat_channel.ChatChannelBaseHandler;
+import org.example.netty.group_chat.engine.chat_channel.GroupChatEnum;
 import org.example.netty.group_chat.engine.entity.Session;
 import org.example.netty.group_chat.engine.utils.KDateUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public enum GlobalSessionMgr {
     Instance;
@@ -25,7 +29,7 @@ public enum GlobalSessionMgr {
 
     private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-
+    private static final Map<String,List<Session>> groupChannelMap = new HashMap<>();
 
     public Session bind(String name,Channel channel){
         long uid = createUUid();
@@ -49,6 +53,49 @@ public enum GlobalSessionMgr {
     public long createUUid(){
         long now = KDateUtil.Instance.now();
         return ((now & 0x1FFFFF) << 12) | (autoUid.incrementAndGet() & 0xFFF);
+    }
+
+    public String createGroup(int chatType, List<Session> sessionList) throws InstantiationException, IllegalAccessException {
+        ChatChannelBaseHandler handler = GroupChatEnum.newInstanceHandler(chatType);
+        if(handler == null){
+            return null;
+        }
+        String channelName = handler.channelPassive();
+        groupChannelMap.put(channelName,sessionList);
+        return channelName;
+    }
+
+    public ChatErrCodeEnum joinGroup(String groupName,Session selfSession){
+        if(groupChannelMap.containsKey(groupName)){
+            List<Session> sessions = groupChannelMap.get(groupName);
+            boolean isCanJoin = true;
+            for (Session session : sessions) {
+                if(session.getUid() == selfSession.getUid()){
+                    isCanJoin = false;
+                    break;
+                }
+            }
+            if(isCanJoin){
+                sessions.add(selfSession);
+                return ChatErrCodeEnum.SUCCESS;
+            }
+        }
+        return ChatErrCodeEnum.ERR;
+    }
+
+    public ChatErrCodeEnum quitGroup(String groupName, Session selfSession){
+        if(groupChannelMap.containsKey(groupName)){
+            List<Session> sessions = groupChannelMap.get(groupName);
+            sessions = sessions.stream().filter(session -> session.getUid() != selfSession.getUid()).collect(Collectors.toList());
+            if(!sessions.isEmpty()){
+
+                groupChannelMap.put(groupName,sessions);
+            }else {
+                groupChannelMap.remove(groupName);
+            }
+            return ChatErrCodeEnum.SUCCESS;
+        }
+        return ChatErrCodeEnum.ERR;
     }
 
     public boolean hasLogin(Channel channel){
@@ -89,6 +136,25 @@ public enum GlobalSessionMgr {
                 channel.writeAndFlush(packet);
             }
         });
+    }
+
+    public void sendMsgToSpecified(String groupName,Packet packet){
+        if (groupChannelMap.containsKey(groupName)) {
+            List<Session> sessions = groupChannelMap.get(groupName);
+            for (Session session : sessions) {
+                Channel channel = userIdChannelMap.get(session.getUid());
+                if(channel != null){
+                    channel.writeAndFlush(packet);
+                }
+            }
+        }
+    }
+
+    public List<Session> getGroupSessionList(String groupName){
+        if(groupChannelMap.containsKey(groupName)){
+           return groupChannelMap.get(groupName);
+        }
+        return new ArrayList<>();
     }
 
     public List<Session> allSession(){

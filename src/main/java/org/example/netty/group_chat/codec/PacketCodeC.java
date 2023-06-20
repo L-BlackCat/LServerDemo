@@ -64,6 +64,7 @@ public enum PacketCodeC {
             return null;
         }
         IChatSerializer handler = chatSerializeType.newInstanceHandler();
+        //  LFH 需求：这里分辨包是一个请求包还是响应包
         PacketTypeEnum packetTypeEnum = PacketTypeEnum.toEnum(requestId);
         if(packetTypeEnum == null){
             Debug.err("请求对应的数据类型不存在,packet_id: " + requestId);

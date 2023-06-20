@@ -1,21 +1,12 @@
 package org.example.netty.group_chat.cli_main;
 
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import org.example.netty.group_chat.client.GroupChatClient;
-import org.example.netty.group_chat.client.GroupChatClientHandler;
-import org.example.netty.group_chat.codec.GroupChatMessageDecode;
-import org.example.netty.group_chat.codec.GroupChatMessageEncode;
+import org.example.netty.group_chat.client.LNettyClient;
 import org.example.netty.group_chat.logger.Debug;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class CliNettyChatLoginFrame extends JFrame {
     static int WIDTH = 250;
@@ -51,21 +42,27 @@ public class CliNettyChatLoginFrame extends JFrame {
         label.setBounds(10, 40, 200, 100);
         label.setText("<html>在上面的文本框中输入名字<br/>显示器宽度：" + width + "<br/>显示器高度：" + height + "</html>");
 
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    action();
+                }
+            }
+        });
+
         btnOk.addActionListener(e -> {
-                    String name = this.txtName.getText();
-                    if (name.trim().isEmpty()) {
-                        return;
-                    }
-                    new Thread(() -> {
-                        try {
-                            this.setVisible(false);
-                            GroupChatClient.start(name);
-                        } catch (InterruptedException ex) {
-                            Debug.err("连接失败",ex);
-                        }
-                    }).start();
-
-
+                action();
 //                    catch (IOException ex) {
 //                        /*
 //                        * 弹窗：
@@ -79,10 +76,25 @@ public class CliNettyChatLoginFrame extends JFrame {
 //                        JOptionPane.showMessageDialog(this,"login err");
 //                        System.out.println("login err，" + ex.getMessage() );
 //                    }
-
                 }
         );
 
+    }
+
+    public void action(){
+
+        String name = this.txtName.getText();
+        if (name.trim().isEmpty()) {
+            return;
+        }
+        new Thread(() -> {
+            try {
+                this.setVisible(false);
+                LNettyClient.start(name);
+            } catch (InterruptedException ex) {
+                Debug.err("连接失败",ex);
+            }
+        }).start();
     }
 
 

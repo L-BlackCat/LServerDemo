@@ -8,7 +8,7 @@ import org.example.netty.group_chat.logger.Debug;
 
 import java.util.List;
 
-public class GroupChatMessageDecode extends ReplayingDecoder<Packet> {
+public class PacketDecode extends ReplayingDecoder<Packet> {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Debug.debug("进入编码");

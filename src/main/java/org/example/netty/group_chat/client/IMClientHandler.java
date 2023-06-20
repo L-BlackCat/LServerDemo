@@ -9,7 +9,7 @@ import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.engine.IResponseHandler;
 import org.example.netty.group_chat.logger.Debug;
 
-public class GroupChatClientHandler extends SimpleChannelInboundHandler<Packet> {
+public class IMClientHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
@@ -52,7 +52,7 @@ public class GroupChatClientHandler extends SimpleChannelInboundHandler<Packet> 
             return;
         }
         try {
-            handler.onProcess(ctx,packet, now,GroupChatClient.mainFrame);
+            handler.onProcess(ctx,packet, now, LNettyClient.mainFrame);
         }catch (Exception e){
             Debug.err("响应出错,protocolId:" + protocolId,e);
         }

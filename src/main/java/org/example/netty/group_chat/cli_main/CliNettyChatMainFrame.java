@@ -1,13 +1,12 @@
 package org.example.netty.group_chat.cli_main;
 
 import io.netty.channel.Channel;
-import org.example.netty.group_chat.bean.LoginRequestPacket;
-import org.example.netty.group_chat.bean.MessageRequestPacket;
-import org.example.netty.group_chat.bean.PacketData;
+import org.example.netty.group_chat.bean.RequestPacket;
+import org.example.netty.group_chat.bean.ResponsePacket;
 import org.example.netty.group_chat.client.IAttributes;
-import org.example.netty.group_chat.engine.ChatTypeEnum;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.engine.entity.Session;
+import org.example.netty.group_chat.logger.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,12 +34,18 @@ public class CliNettyChatMainFrame {
 
     Channel channel;
 
+    String groupName;
+
 //    CliNettyChatLoginFrame loginFrame;
 
-//    public CliNettyChatMainFrame() {
-//        loginFrame = new CliNettyChatLoginFrame();
-//        loginFrame.setVisible(true);
-//    }
+
+    public CliNettyChatMainFrame() {
+    }
+
+    public CliNettyChatMainFrame(String groupName) {
+        frame = new JFrame(groupName);
+    }
+
 
     public void init(Channel channel){
         this.channel = channel;
@@ -53,7 +58,7 @@ public class CliNettyChatMainFrame {
         frame.setBounds(width / 2 - WIDTH / 2, height / 2 - HEIGHT / 2, WIDTH, HEIGHT);
 
         frame.setLayout(null);
-        frame.setTitle(name + " 聊天窗口");
+        frame.setTitle(groupName + " - " +name + " 聊天窗口");
         frame.setSize(WIDTH,HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -89,17 +94,15 @@ public class CliNettyChatMainFrame {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                //  LFH 通知聊天服务器断开连接
-                logout();
-                System.exit(0);
-
+                quitGroup();
+                frame.setVisible(false);
             }
         });
 
         btnExit.addActionListener(e -> {
             // LFH  通知聊天服务器断开连接
-            logout();
-            System.exit(0);
+            quitGroup();
+            frame.setVisible(false);
         });
 
         btnSend.addActionListener(e -> {
@@ -134,19 +137,22 @@ public class CliNettyChatMainFrame {
 
     }
 
-    public void logout(){
-        PacketData packet = new PacketData();
-        packet.setRequestId(ClientProtocolID.Chat_Logout_Request.getId());
+    public void quitGroup(){
+        String name = channel.attr(IAttributes.NAME).get();
+        Debug.info(name + " 退出群组：" + groupName);
+        RequestPacket packet = new RequestPacket();
+        packet.setRequestId(ClientProtocolID.Quit_Group_Request.getId());
+        packet.getMap().put("group_name",groupName);
         channel.writeAndFlush(packet);
     }
 
     public void writeMsg(){
         String msg = writeContext.getText();
         if(!msg.trim().isEmpty()){
-            MessageRequestPacket packet = new MessageRequestPacket();
-            packet.setMsg(msg);
+            ResponsePacket packet = new ResponsePacket();
+            packet.getMap().put("msg",msg);
+            packet.getMap().put("group_name",groupName);
             packet.setRequestId(ClientProtocolID.Chat_Message_Request.getId());
-            packet.setChatType(ChatTypeEnum.Public_Chat.toInt());
             channel.writeAndFlush(packet);
         }
     }
@@ -160,8 +166,18 @@ public class CliNettyChatMainFrame {
 
     public void show(Channel channel){
         init(channel);
-//        loginFrame.setVisible(false);
         frame.setVisible(true);
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }
