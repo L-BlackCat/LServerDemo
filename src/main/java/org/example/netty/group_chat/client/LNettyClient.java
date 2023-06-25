@@ -8,6 +8,7 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import nio.demo.zerocopy.NewIOClient;
 import org.example.netty.group_chat.bean.MessageRequestPacket;
 import org.example.netty.group_chat.bean.RequestPacket;
 import org.example.netty.group_chat.cli_main.CliNettyChatHallFrame;
@@ -18,6 +19,9 @@ import org.example.netty.group_chat.codec.PacketCodeCHandler;
 import org.example.netty.group_chat.engine.ClientProtocolID;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.engine.entity.Session;
+import org.example.netty.group_chat.logger.Debug;
+import org.example.netty.group_chat.server.IMIdleStateHandler;
+import org.example.netty.simple.NettyClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,18 @@ import java.util.Scanner;
 public class LNettyClient {
     public static final int MAX_RETRY = 5;
     public static boolean isRun = true;
+    private String userName;
+
+    private int port;
+    private String host;
+    private Bootstrap bootstrap;
+
+    private NioEventLoopGroup loopGroup;
+
+    public LNettyClient(String host, int port) {
+        this.port = port;
+        this.host = host;
+    }
 
     public static CliNettyChatMainFrame mainFrame;
 
@@ -66,26 +82,34 @@ public class LNettyClient {
     }
 
     public static void start(String name) throws InterruptedException {
-          NioEventLoopGroup loopGroup = new NioEventLoopGroup();
+        LNettyClient client = new LNettyClient("localhost", 1314);
+        client.userName = name;
+        client.connect();
+    }
+
+    public void connect(){
+        LNettyClient client = this;
+        loopGroup = new NioEventLoopGroup();
         try {
-            Bootstrap bootstrap = new Bootstrap();
+            bootstrap = new Bootstrap();
             bootstrap.group(loopGroup)
                     .channel(NioSocketChannel.class)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new IMIdleStateHandler(10,0,0));
                             pipeline.addLast(new GroupChatSpliter());
                             pipeline.addLast(PacketCodeCHandler.instance);
-                            pipeline.addLast(new IMClientHandler());
+                            pipeline.addLast(new IMClientHandler(client));
                         }
                     });
-            ChannelFuture cf = bootstrap.connect("localhost", 1314).sync();
+            ChannelFuture cf = bootstrap.connect(client.host,client.port).sync();
             cf.addListener(future -> {
                 if (future.isSuccess()) {
                     Channel channel = cf.channel();
                     System.out.println("客户端连接成功");
-                    login(channel,name);
+                    login(channel,userName);
                 } else {
                     System.out.println("客户单连接失败，重新连接");
                 }
@@ -97,6 +121,8 @@ public class LNettyClient {
             cf.channel().closeFuture().sync();
             System.out.println("结束");
 
+        } catch (InterruptedException e) {
+            Debug.err("启动失败",e);
         } finally {
             loopGroup.shutdownGracefully();
             isRun = false;

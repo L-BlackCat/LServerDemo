@@ -11,6 +11,7 @@ public enum ClientProtocolID implements IDEnum{
     Join_Group_Request(5,"加入聊天组",REQUEST_TYPE),
     Quit_Group_Request(6,"退出聊天组",REQUEST_TYPE),
     Update_Group_Members_Request(7,"更新组成员请求",REQUEST_TYPE),
+    Tick_Request(8,"心跳请求",REQUEST_TYPE),
 
 
 
@@ -26,6 +27,8 @@ public enum ClientProtocolID implements IDEnum{
 
 
     Update_Group_Members_Response(Update_Group_Members_Request.getId() + RESPONSE_ID, "更新组成员响应",REQUEST_TYPE),
+
+    Tick_Response(Tick_Request.getId() + RESPONSE_ID,"心跳响应",RESPONSE_TYPE),
     ;
 
     private int id;

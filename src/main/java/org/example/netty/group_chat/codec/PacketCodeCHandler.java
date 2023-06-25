@@ -1,6 +1,7 @@
 package org.example.netty.group_chat.codec;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 import org.example.netty.group_chat.bean.Packet;
@@ -9,6 +10,7 @@ import org.example.netty.group_chat.logger.Debug;
 
 import java.util.List;
 
+@ChannelHandler.Sharable
 public class PacketCodeCHandler extends MessageToMessageCodec<ByteBuf, PacketData> {
     public static final PacketCodeCHandler instance = new PacketCodeCHandler();
     @Override

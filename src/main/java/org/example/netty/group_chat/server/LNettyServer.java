@@ -8,13 +8,10 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.timeout.IdleStateHandler;
 import org.example.netty.group_chat.codec.PacketCodeCHandler;
 import org.example.netty.group_chat.codec.GroupChatSpliter;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.logger.Debug;
-
-import java.util.concurrent.TimeUnit;
 
 public class LNettyServer {
     public static void init(){
@@ -40,7 +37,7 @@ public class LNettyServer {
                             pipeline.addLast(PacketCodeCHandler.instance);
                             pipeline.addLast(new GroupChatSpliter());
                             //  增加心跳检测机制
-                            pipeline.addLast(new IMIdleStateHandler(7000,7000,100, TimeUnit.SECONDS));
+                            pipeline.addLast(new IMIdleStateHandler(10,8,0));
                             pipeline.addLast(new IMServerHandler());
                         }
                     });

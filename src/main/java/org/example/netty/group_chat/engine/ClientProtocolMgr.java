@@ -7,6 +7,7 @@ import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_Gam
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_JoinGroup;
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_QuitGroup;
 import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_SendMessage;
+import org.example.netty.group_chat.client.handler.ChatClientResponseHandler_Tick;
 import org.example.netty.group_chat.logger.Debug;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogout;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_ChatLogin;
@@ -14,6 +15,7 @@ import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_Crea
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_JoinGroup;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_QuitGroup;
 import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_SendMessage;
+import org.example.netty.group_chat.server.handler.ChatClientRequestHandler_Tick;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +44,7 @@ public enum ClientProtocolMgr {
         regRequest(ClientProtocolID.Chat_Create_Group_Request, ChatClientRequestHandler_CreateGroup.class);
         regRequest(ClientProtocolID.Join_Group_Request, ChatClientRequestHandler_JoinGroup.class);
         regRequest(ClientProtocolID.Quit_Group_Request, ChatClientRequestHandler_QuitGroup.class);
+        regRequest(ClientProtocolID.Tick_Request, ChatClientRequestHandler_Tick.class);
     }
 
     public void loadResponse(){
@@ -51,6 +54,7 @@ public enum ClientProtocolMgr {
         regResponse(ClientProtocolID.Chat_Create_Group_Response, ChatClientResponseHandler_CreateGroup.class);
         regResponse(ClientProtocolID.Join_Group_Response, ChatClientResponseHandler_JoinGroup.class);
         regResponse(ClientProtocolID.Quit_Group_Response, ChatClientResponseHandler_QuitGroup.class);
+        regResponse(ClientProtocolID.Tick_Response, ChatClientResponseHandler_Tick.class);
     }
 
     public void regRequest(ClientProtocolID clientProtocolID, Class<? extends ChatClientRequestHandlerBase> handlerClass){

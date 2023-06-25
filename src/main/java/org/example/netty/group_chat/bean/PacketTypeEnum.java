@@ -23,6 +23,12 @@ public enum PacketTypeEnum {
 
     Quit_Group_Request(ClientProtocolID.Quit_Group_Request.getId(),"离开聊天组请求", RequestPacket.class),
     Quit_Group_Response(ClientProtocolID.Quit_Group_Response.getId(),"离开聊天组响应", ResponsePacket.class),
+
+    Update_Group_Members_Request(ClientProtocolID.Update_Group_Members_Request.getId(),"更新组员请求",RequestPacket.class),
+    Update_Group_Members_Response(ClientProtocolID.Update_Group_Members_Response.getId(),"更新组员响应",ResponsePacket.class),
+
+    Tick_Request(ClientProtocolID.Tick_Request.getId(),"心跳请求",RequestPacket.class),
+    Tick_Response(ClientProtocolID.Tick_Response.getId(),"心跳响应",ResponsePacket.class),
     ;
 
     private int id;
