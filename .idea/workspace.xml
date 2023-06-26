@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a9ca044-a72d-4a04-8a25-b076e789c391" name="Changes" comment="netty">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/handler/ChatClientResponseHandler_Tick.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/handler/ChatClientRequestHandler_Tick.java" afterDir="false" />
+    <list default="true" id="6a9ca044-a72d-4a04-8a25-b076e789c391" name="Changes" comment="netty完整版本-有心跳和断线重连">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/bean/PacketTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IMClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IMClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/LNettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/LNettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeCHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/codec/PacketCodeCHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/engine/ClientProtocolMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/IMIdleStateHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/IMIdleStateHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/READ.md" beforeDir="false" afterPath="$PROJECT_DIR$/READ.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/LNettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/LNettyServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +73,7 @@
       <recent name="org.example.netty.group_chat.serialization" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.LNettyClient">
+  <component name="RunManager" selected="Application.LNettyServer">
     <configuration name="GroupChatClient 2" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.example.netty.group_chat.client.LNettyClient" />
       <module name="LServerDemo" />
@@ -154,7 +146,7 @@
       <workItem from="1685325629670" duration="143925000" />
       <workItem from="1686802645948" duration="14456000" />
       <workItem from="1687139670551" duration="2961000" />
-      <workItem from="1687149221892" duration="37226000" />
+      <workItem from="1687149221892" duration="49485000" />
     </task>
     <task id="LOCAL-00001" summary="上传">
       <created>1682596823000</created>
@@ -247,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687262306262</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="netty完整版本-有心跳和断线重连">
+      <created>1687672640241</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1687672640241</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,7 +267,8 @@
     <MESSAGE value="上传" />
     <MESSAGE value="nio-聊天室-完整版" />
     <MESSAGE value="netty" />
-    <option name="LAST_COMMIT_MESSAGE" value="netty" />
+    <MESSAGE value="netty完整版本-有心跳和断线重连" />
+    <option name="LAST_COMMIT_MESSAGE" value="netty完整版本-有心跳和断线重连" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -317,6 +317,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/client/IMClientHandler.java</url>
           <line>31</line>
           <option name="timeStamp" value="284" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.86.Final/netty-transport-4.1.86.Final-sources.jar!/io/netty/channel/MultithreadEventLoopGroup.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="293" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.IllegalArgumentException" package="java.lang" />

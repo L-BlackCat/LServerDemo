@@ -18,10 +18,16 @@ public class LNettyServer {
         ClientProtocolMgr.Instance.onServerStart();
     }
 
-
+    /**
+     * Netty的线程模型是事件驱动型，这个线程要做的事情就是
+     *  1.不停的检测IO事件
+     *  2.处理IO事件
+     *  3.执行任务
+     * 不停重复这三个步骤
+     */
     public void start(){
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
-        NioEventLoopGroup workerGroup = new NioEventLoopGroup(2);
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup();  //比作老板，从外面接活,用来接受新的连接，然后将新的连接交给workerGroup来处理
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup(2);   //比作员工，负责干活，用来处理连接的事件。
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         try{
             serverBootstrap.group(bossGroup,workerGroup)
@@ -31,6 +37,10 @@ public class LNettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            /**
+                             * 设置一系列的handler，用来处理每个连接的数据
+                             * 老板从外面街接到一个活之后，告诉每个工人活的固定步骤
+                             */
                             //  获取pipeline
                             ChannelPipeline pipeline = ch.pipeline();
 
@@ -42,6 +52,24 @@ public class LNettyServer {
                         }
                     });
 
+            /**
+             *  bind(port)函数创建channel，生成的组件：
+             *      channel
+             *      channelId
+             *      unsafe
+             *      channelPipeline
+             *      channelConfig
+             *          用来保存channel的Attr和Option
+             *      *channelHandler(并非自bind(port)中创建)
+             *  内部方法初始化channel,init(channel):
+             *      设置服务器的channel的option和attr
+             *      设置客户端channel的option和attr
+             *      配置服务器启动逻辑（这时候并没有启动）
+             *          添加用户自定义的处理逻辑到服务端启动流程
+             *          添加ServerBootstrapAcceptor接入器，接受新情求，把请求传递给事件处理器
+             *
+             *
+             */
             ChannelFuture cf = serverBootstrap.bind(1314).sync();
             cf.addListener(future -> {
                 if(future.isSuccess()){
@@ -56,6 +84,7 @@ public class LNettyServer {
             Debug.warn("服务器启动失败");
             e.printStackTrace();
         } finally {
+            //  关闭两组事件循环
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

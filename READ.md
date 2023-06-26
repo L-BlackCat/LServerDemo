@@ -14,3 +14,10 @@
 
 ### ctx.channel().writeAndFlush()
 当前节点位于C,调用了 ctx.channel().writeAndFlush（）,会从pipeline链中的E节点开始往前寻，直到找到第一个outBound类型的handler
+
+
+
+#   小测
+    重写类的clone方法，让类继承Cloneable
+
+    ChannelFactory接口和ReflectiveChannelFactory实现类的使用，通过反射创建factory
