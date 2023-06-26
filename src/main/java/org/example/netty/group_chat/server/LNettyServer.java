@@ -12,6 +12,7 @@ import org.example.netty.group_chat.codec.PacketCodeCHandler;
 import org.example.netty.group_chat.codec.GroupChatSpliter;
 import org.example.netty.group_chat.engine.ClientProtocolMgr;
 import org.example.netty.group_chat.logger.Debug;
+import org.example.netty.simple.SimpleServerHandler;
 
 public class LNettyServer {
     public static void init(){
@@ -32,6 +33,7 @@ public class LNettyServer {
         try{
             serverBootstrap.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .handler(new SimpleServerHandler())
                     .option(ChannelOption.SO_BACKLOG,128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
@@ -53,7 +55,9 @@ public class LNettyServer {
                     });
 
             /**
-             *  bind(port)函数创建channel，生成的组件：
+             *  bind(port)函数
+             *  创建JDK底层channel，创建对应的Config对象，设置channel为非阻塞模式。
+             *  生创建Server对应的Channel，创建各大组件，成的组件：
              *      channel
              *      channelId
              *      unsafe
@@ -61,13 +65,21 @@ public class LNettyServer {
              *      channelConfig
              *          用来保存channel的Attr和Option
              *      *channelHandler(并非自bind(port)中创建)
-             *  内部方法初始化channel,init(channel):
+             *  初始化Server对应的channel,init(channel):
              *      设置服务器的channel的option和attr
              *      设置客户端channel的option和attr
              *      配置服务器启动逻辑（这时候并没有启动）
              *          添加用户自定义的处理逻辑到服务端启动流程
-             *          添加ServerBootstrapAcceptor接入器，接受新情求，把请求传递给事件处理器
+             *          server的channel添加ServerBootstrapAcceptor接入器，接受新情求，并触发addHandler、register等事件。
+             *  config().group().register(channel)
+             *      绑定事件循环器
+             *      调用JDK底层注册selector，并将NioServerSocketChannel当成attachment绑定到Selector上
              *
+             *      调用invokeHandlerAddedIfNeeded(),控制台打印：handlerAdded
+             *      调用pipeline.fireChannelRegistered()之后，控制台输出： handlerAdded    channelRegistered
+             *
+             *  doBind0()
+             *      调用JDK底层绑定端口和地址，触发服务器active事件，控制台打印：handlerActive,当active事件被触发时，才真正做服务器端口绑定。
              *
              */
             ChannelFuture cf = serverBootstrap.bind(1314).sync();

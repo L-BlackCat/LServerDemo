@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a9ca044-a72d-4a04-8a25-b076e789c391" name="Changes" comment="netty完整版本-有心跳和断线重连">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/thread/LongTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/READ.md" beforeDir="false" afterPath="$PROJECT_DIR$/READ.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/LNettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/group_chat/server/LNettyServer.java" afterDir="false" />
@@ -113,14 +114,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LongTask" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.thread.LongTask" />
+      <module name="LServerDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.thread.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.LNettyClient" />
       <item itemvalue="Application.GroupChatClient 2" />
       <item itemvalue="Application.LNettyServer" />
+      <item itemvalue="Application.LongTask" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.LNettyServer" />
+        <item itemvalue="Application.LongTask" />
       </list>
     </recent_temporary>
   </component>
@@ -146,7 +162,7 @@
       <workItem from="1685325629670" duration="143925000" />
       <workItem from="1686802645948" duration="14456000" />
       <workItem from="1687139670551" duration="2961000" />
-      <workItem from="1687149221892" duration="49485000" />
+      <workItem from="1687149221892" duration="58503000" />
     </task>
     <task id="LOCAL-00001" summary="上传">
       <created>1682596823000</created>
@@ -246,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687672640241</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="netty完整版本-有心跳和断线重连">
+      <created>1687745027469</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1687745027469</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,9 +342,9 @@
           <option name="timeStamp" value="284" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.86.Final/netty-transport-4.1.86.Final-sources.jar!/io/netty/channel/MultithreadEventLoopGroup.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="293" />
+          <url>jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.86.Final/netty-transport-4.1.86.Final-sources.jar!/io/netty/channel/socket/nio/NioServerSocketChannel.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="302" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.IllegalArgumentException" package="java.lang" />
