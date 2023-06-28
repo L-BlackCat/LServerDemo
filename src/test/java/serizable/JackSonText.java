@@ -3,7 +3,7 @@ package serizable;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.netty.group_chat.engine.entity.Session;
+import org.example.netty_chat.group_chat.engine.entity.Session;
 
 import java.io.File;
 import java.io.IOException;

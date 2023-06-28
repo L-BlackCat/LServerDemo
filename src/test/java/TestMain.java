@@ -1,4 +1,4 @@
-import org.example.netty.group_chat.engine.utils.KDateUtil;
+import org.example.netty_chat.group_chat.engine.utils.KDateUtil;
 
 public class TestMain {
     public static void main(String[] args) {

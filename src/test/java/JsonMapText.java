@@ -1,16 +1,14 @@
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.TypeReference;
-import org.example.netty.group_chat.bean.Packet;
-import org.example.netty.group_chat.bean.PacketData;
-import org.example.netty.group_chat.engine.entity.JArray;
-import org.example.netty.group_chat.engine.entity.Session;
+import org.example.netty_chat.group_chat.bean.Packet;
+import org.example.netty_chat.group_chat.bean.PacketData;
+import org.example.netty_chat.group_chat.engine.entity.JArray;
+import org.example.netty_chat.group_chat.engine.entity.Session;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class JsonMapText implements Serializable {
