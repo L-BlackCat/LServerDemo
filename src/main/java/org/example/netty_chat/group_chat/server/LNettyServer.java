@@ -42,6 +42,8 @@ public class LNettyServer {
                             /**
                              * 设置一系列的handler，用来处理每个连接的数据
                              * 老板从外面街接到一个活之后，告诉每个工人活的固定步骤
+                             *
+                             * 当一个新连接被接受时，一个新的子channel被创建，而ChannelInitializer将会把你的要增加的handler实例添加到该channel的channelPipline中
                              */
                             //  获取pipeline
                             ChannelPipeline pipeline = ch.pipeline();
@@ -82,7 +84,7 @@ public class LNettyServer {
              *      调用JDK底层绑定端口和地址，触发服务器active事件，控制台打印：handlerActive,当active事件被触发时，才真正做服务器端口绑定。
              *
              */
-            ChannelFuture cf = serverBootstrap.bind(1314).sync();
+            ChannelFuture cf = serverBootstrap.bind(1314).sync();   //异步绑定服务器，阻塞直到绑定完成
             cf.addListener(future -> {
                 if(future.isSuccess()){
                     Debug.info("连接端口 1314 成功");
@@ -91,12 +93,12 @@ public class LNettyServer {
                 }
             });
 
-            cf.channel().closeFuture().sync();
+            cf.channel().closeFuture().sync();  //阻塞当前线程直到其完成
         } catch (InterruptedException e) {
             Debug.warn("服务器启动失败");
             e.printStackTrace();
         } finally {
-            //  关闭两组事件循环
+            //  关闭两组事件循环，释放资源
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

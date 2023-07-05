@@ -1,12 +1,20 @@
 package org.example.thread;
 
+import java.util.Random;
+
 public class LongTask implements Runnable{
     static long value = 0;
     @Override
     public void run() {
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 200; i++) {
             value++;
+
             System.out.println(value);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
